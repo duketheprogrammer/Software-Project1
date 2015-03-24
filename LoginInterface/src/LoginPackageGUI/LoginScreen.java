@@ -246,11 +246,11 @@ public class LoginScreen implements ActionListener{
 
 		if(action.equals("Login")){ //For Login Checker
 			boolean uN = false, pW = false;
-			String username = box1.getText().toLowerCase();
+			String username = box1.getText().toString();
 			String password = passBox1.getText().toString();
 
 			for(AdminAccount a : adminList){
-				if(username.equals(a.getUserName())){
+				if(username.equalsIgnoreCase(a.getUserName())){
 					uN = true;
 					if(password.equals(a.getPassWord())){
 						pW = true;
