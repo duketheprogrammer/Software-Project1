@@ -13,14 +13,14 @@ import javax.swing.event.*;
 public class MemberScreen implements ActionListener{
 
 	private JFrame frame;
-	private JPanel panel1, panel2, eventPanel, membersPanel,equipmentPanel, mini_panel1, mini_panel2;
+	private JPanel panel1, panel2, eventPanel, membersPanel,equipmentPanel, mini_panel1, mini_panel2, mini_panel3, mini_panel4;
 	private JTabbedPane mainTabbedPane, comm_tabbedPane;
-	private JLabel label1, label2, label3, label4, mini_label1, mini_label2, mini_label3, mini_label4, comm_D_label1;
-	private JTextField mini_box1, mini_box2, mini_box3, mini_box4, box5, box6, box7;
+	private JLabel label1, label2, label3, label4, mini_label1, mini_label2, mini_label3, mini_label4, mini_label5, comm_D_label1;
+	private JTextField mini_box1, mini_box2, mini_box3, mini_box4, mini_box5, box5, box6, box7;
 	private JTextArea mini_textArea;
 	private JTextArea box2;
 	private JPasswordField passBox1, passBox2, passBox3;
-	private JButton m_button1, m_button2, m_button3, mini_button1, mini_button2, mini_button3, comm_D_button3, comm_D_button4;
+	private JButton m_button1, m_button2, m_button3, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4;
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
@@ -28,10 +28,10 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
 	private MemberAccount mA;
-	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2;
-	private JScrollPane sp;
+	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2, comm_table3;
+	private JScrollPane sp, sp1;
 	private WelcomePanel wP;
-	private JSplitPane splitPane, doubleSplitPane;
+	private JSplitPane splitPane, doubleSplitPane, doubleSplitPane1, splitPane1;
 	private JDialog d;
 	private JComboBox comboBox;
 	
@@ -207,7 +207,7 @@ public class MemberScreen implements ActionListener{
 									mini_panel1.add(mini_label1);
 									
 									mini_box1 = new JTextField();
-									mini_box1.setBounds(89,5,113,33);
+									mini_box1.setBounds(89,5,200,33);
 									mini_panel1.add(mini_box1);
 									
 									mini_label2 = new JLabel("Location:");
@@ -216,21 +216,21 @@ public class MemberScreen implements ActionListener{
 									mini_panel1.add(mini_label2);
 									
 									mini_box2 = new JTextField();
-									mini_box2.setBounds(89,49,113,33);
+									mini_box2.setBounds(89,49,200,33);
 									mini_panel1.add(mini_box2);
 									
 									mini_label3 = new JLabel("Time & Date");
 									mini_label3.setFont(new Font("SimSun", Font.PLAIN, 14));
-									mini_label3.setBounds(10,95,69,33);
+									mini_label3.setBounds(10,95,92,33);
 									mini_panel1.add(mini_label3);
 									
 									mini_box3 = new JTextField();
-									mini_box3.setBounds(89,93,113,33);
+									mini_box3.setBounds(89,93,200,33);
 									mini_panel1.add(mini_box3);
 									
 									mini_label4 = new JLabel("Event Info");
 									mini_label4.setFont(new Font("SimSun", Font.PLAIN, 14));
-									mini_label4.setBounds(10,143,69,33);
+									mini_label4.setBounds(10,143,92,33);
 									mini_panel1.add(mini_label4);
 									
 									mini_textArea = new JTextArea();
@@ -278,6 +278,60 @@ public class MemberScreen implements ActionListener{
 					};
 					membersPanel.setLayout(null);
 					comm_tabbedPane.add(membersPanel, "MEMBERS");
+					
+					
+					doubleSplitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+					doubleSplitPane1.setOneTouchExpandable(true);
+					doubleSplitPane1.setBounds(28,11,1125,570);
+					membersPanel.add(doubleSplitPane1);
+					
+					
+						splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+						splitPane1.setOneTouchExpandable(true);
+						splitPane1.setBounds(10,11,629,522);
+						doubleSplitPane1.setTopComponent(splitPane1);
+						
+							sp1 = new JScrollPane();
+							splitPane1.setLeftComponent(sp1);
+							
+							comm_table3 = new JTable();
+							sp1.setViewportView(comm_table3);
+							comm_table3.setFillsViewportHeight(true);
+							comm_table3.setModel(new DefaultTableModel(
+									new Object[][] {
+									},
+									new String[] {"ID", "Name", "Email", "Phone"}));
+							
+							mini_panel3 = new JPanel();
+							mini_panel3.setLayout(null);
+							
+								mini_label5 = new JLabel("Student No:");
+								mini_label5.setFont(new Font("SimSun", Font.PLAIN, 14));
+								mini_label5.setBounds(10,5,119,33);
+								mini_panel3.add(mini_label5);
+								
+								mini_box5 = new JTextField();
+								mini_box5.setBounds(110,5,192,33);
+								mini_panel3.add(mini_box5);
+								
+								splitPane1.setRightComponent(mini_panel3);
+								splitPane1.setResizeWeight(0.5);
+								
+								mini_panel4 = new JPanel();
+								mini_panel4.setLayout(null);
+								
+									mini_button4 = new JButton("Add Member");
+									mini_button4.addActionListener(this);
+									mini_button4.setBounds(10,11,147,33);
+									mini_panel4.add(mini_button4);
+									
+									mini_button5 = new JButton("Remove Member");
+									mini_button5.addActionListener(this);
+									mini_button5.setBounds(741,11,147,33);
+									mini_panel4.add(mini_button5);
+									
+							doubleSplitPane1.setResizeWeight(0.5);
+							doubleSplitPane1.setBottomComponent(mini_panel4);
 					
 					equipmentPanel = new JPanel(){
 						protected void paintComponent(Graphics g){
