@@ -5,15 +5,16 @@ import java.util.*;
 public class Club {
 	
 	private int clubID;
-	private String clubName, clubDescription;
+	private String clubName, clubDescription, clubType;
 	private ArrayList<Event> eventList;
 	private ArrayList<MemberAccount> memberList;
 	
-	public Club(int clubID, String clubName, String clubDescription) {
+	public Club(int clubID, String clubName, String clubDescription, String clubType) {
 		// TODO Auto-generated constructor stub
 		setClubID(clubID);
 		setClubName(clubName);
 		setClubDescription(clubDescription);
+		setClubType(clubType);
 		eventList = new ArrayList<Event>();
 		memberList = new ArrayList<MemberAccount>();
 	}
@@ -54,6 +55,10 @@ public class Club {
 		this.clubDescription = clubDescription;
 	}
 	
+	public void setClubType(String clubType){
+		this.clubType = clubType;
+	}
+	
 	public int getClubID(){
 		return clubID;
 	}
@@ -64,6 +69,10 @@ public class Club {
 	
 	public String getClubDescription(){
 		return clubDescription;
+	}
+	
+	public String getClubType(){
+		return clubType;
 	}
 	
 	public ClubCache giveClubCacheToMembers(){

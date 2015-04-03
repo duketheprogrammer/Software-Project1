@@ -300,7 +300,7 @@ public class MemberScreen implements ActionListener{
 							comm_table3.setModel(new DefaultTableModel(
 									new Object[][] {
 									},
-									new String[] {"ID", "Name", "Email", "Phone"}));
+									new String[] {"MEMBER_EMAIL", "MEMBER_FNAME", "MEMBER_LNAME", "MEMBER_PHONE"}));
 							
 							mini_panel3 = new JPanel();
 							mini_panel3.setLayout(null);

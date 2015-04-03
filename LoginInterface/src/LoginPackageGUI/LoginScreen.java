@@ -2,7 +2,6 @@ package LoginPackageGUI;
 
 import LoginPackageSRC.*;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -43,13 +42,15 @@ public class LoginScreen implements ActionListener{
 	public LoginScreen(){
 		initialize();
 		adminList = new ArrayList<AdminAccount>();
+		memberList = new ArrayList<MemberAccount>();
 		clubList = new ArrayList<Club>();
 
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
-		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive");
+		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
 		adminList.add(acc);		
 		clubList.add(club);
-		MemberAccount mA = new MemberAccount("dukey", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
+		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
+		memberList.add(mA);
 		mA.addClub(club.giveClubCacheToMembers());
 		club.addMember(mA);	
 	}
@@ -68,7 +69,7 @@ public class LoginScreen implements ActionListener{
 		frame = new JFrame("Login Please");
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true); 
-	//	frame.setSize(1000, 997);
+		//	frame.setSize(1000, 997);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
@@ -263,18 +264,15 @@ public class LoginScreen implements ActionListener{
 					}
 				}
 			}
-			for(Club c : clubList){
-				for(int i = 0; i < c.getMemberSize(); i++){
-					if(username.equals(c.getMember(i).getUserName())){
-						uN = true;
-						if(password.equals(c.getMember(i).getPassWord())){
-							pW = true;
-							if(uN == true && pW == true){
-								if((c.getMember(i).getAccType()).equals("Member")){
-									MemberAccount mA = c.getMember(i);
-									frame.getContentPane().removeAll();
-									MemberScreen mS = new MemberScreen(frame, adminList, clubList, memberList, mA);
-								}
+			for(MemberAccount m : memberList){
+				if(username.equalsIgnoreCase(m.getUserName())){
+					uN = true;
+					if(password.equals(m.getPassWord())){
+						pW = true;
+						if(uN == true && pW == true){
+							if((m.getAccType()).equals("Member")){
+								frame.getContentPane().removeAll();
+								MemberScreen mS = new MemberScreen(frame, adminList, clubList, memberList, m);
 							}
 						}
 					}
