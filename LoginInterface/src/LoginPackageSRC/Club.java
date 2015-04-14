@@ -31,12 +31,16 @@ public class Club {
 		return memberList.get(index);
 	}
 	
-	public void addFixture(Event fix){
+	public void addEvent(Event fix){
 		eventList.add(fix);
 	}
 	
-	public Event getFixture(int index){
+	public Event getEvent(int index){
 		return eventList.get(index);
+	}
+	
+	public int getNoOfEvents(){
+		return eventList.size();
 	}
 	
 	public int getMemberSize(){
@@ -76,7 +80,7 @@ public class Club {
 	}
 	
 	public ClubCache giveClubCacheToMembers(){
-		ClubCache cc = new ClubCache(this.getClubID(), this.getClubName(), false);
+		ClubCache cc = new ClubCache(this.getClubID(), this.getClubName(), this.getClubDescription(), this.getClubType(), false);
 		return cc;
 	}
 }

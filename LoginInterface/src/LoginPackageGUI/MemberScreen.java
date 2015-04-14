@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
 import javax.swing.table.*;
 import javax.swing.event.*;
 
@@ -27,6 +28,7 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<AdminAccount> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
+	private ArrayList<Object []> list;
 	private MemberAccount mA;
 	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2, comm_table3;
 	private JScrollPane sp, sp1;
@@ -34,6 +36,8 @@ public class MemberScreen implements ActionListener{
 	private JSplitPane splitPane, doubleSplitPane, doubleSplitPane1, splitPane1;
 	private JDialog d;
 	private JComboBox comboBox;
+	private int clubIndex;
+	
 	
 	public MemberScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
 		this.frame = frame;
@@ -54,19 +58,36 @@ public class MemberScreen implements ActionListener{
 		
 				
 		mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		/*mainTabbedPane.addChangeListener(new ChangeListener() {
+		mainTabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 			// note at this point the tab will be on another pane
 			//identify current pane
-				int selectedPane = mainTabbedPane.getSelectedIndex();
+				int selectedPane = mainTabbedPane.getSelectedIndex(), lastPane = 0;
+				String tab = mainTabbedPane.getTitleAt(selectedPane);
 				
 				
-			if (mA.getClub().getClub) {
-					mainTabbedPane.setSelectedIndex(lastPane);
+				if(tab.equals("COMMITTEE")){
+					String clubName = JOptionPane.showInputDialog(null, "Please enter the name of the club you are a committee member of:");
+					
+					for(int i = 0; i < mA.getNoOfClubs(); i++){
+						if(clubName.equals(mA.getClub(i).getClubName())){
+							if(mA.getClub(i).getIsCommittee() == true){
+								lastPane = selectedPane;
+							}
+							else{
+								JOptionPane.showMessageDialog(null, "You are not a committee member for this club");
+								mainTabbedPane.setSelectedIndex(lastPane);
+							}
+							
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "You might not be registered for this club" + "\nor the club does not exist");
+							mainTabbedPane.setSelectedIndex(lastPane);
+						}
+					}
 				}
-				lastPane = selectedPane;
 			}
-		});*/
+		});
 		mainTabbedPane.setBounds(24, 11, 1313, 720);
 		wP.add(mainTabbedPane);
 			
@@ -100,9 +121,23 @@ public class MemberScreen implements ActionListener{
 						new Object[][] {
 						},
 						new String[] {"CLUB_ID", "CLUB_NAME", "REC/COMP", "CLUB_DESCRIPTION" }));
+				m_table1.addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						int index = m_table1.rowAtPoint(e.getPoint());
+						
+						if(index != -1){
+							clubIndex = index;
+							displayClubEvents(index);
+						}
+					}					
+				});
 				sp = new JScrollPane(m_table1);
 				sp.setBounds(20,84,588,255);
 				panel1.add(sp);
+				displayRegisteredClubs();
 				
 				m_button1 = new JButton("De-Register From Club");
 				m_button1.addActionListener(this);
@@ -386,6 +421,45 @@ public class MemberScreen implements ActionListener{
 		}
 	}
 	
+	private void displayRegisteredClubs(){
+		list = new ArrayList<Object[]>();
+		for(int i = 0; i < mA.getNoOfClubs(); i++){
+			
+			list.add(new Object[] {
+					mA.getClub(i).getClubID(),
+					mA.getClub(i).getClubName(),
+					mA.getClub(i).getClubDesc(),
+					mA.getClub(i).getClubType()
+			});
+			
+		}
+		m_table1.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
+		
+	}
+	
+	private void displayClubEvents(int index){
+		list = new ArrayList<Object[]>();
+		ClubCache cC = mA.getClub(index);
+		
+		for(Club c : clubList){
+			
+			if (cC.getClubID() == c.getClubID()){
+				for(int i = 0; i < c.getNoOfEvents(); i++){
+					
+					list.add(new Object[] {
+							c.getEvent(i).getEventType(),
+							c.getEvent(i).getLocation(),
+							c.getEvent(i).getDate(),
+							c.getEvent(i).getInfo()
+					});		
+				}
+				m_table2.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+						new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
+			}
+		}
+	}
+
 	private void initalizeCommitteeCheckerDialog(){
 		d = new JDialog();
 		d.setAlwaysOnTop(true);

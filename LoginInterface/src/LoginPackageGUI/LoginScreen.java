@@ -332,7 +332,10 @@ public class LoginScreen implements ActionListener{
 		}
 
 		if(action.equals("Exit")){
-			System.exit(0);
+			int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?","Confirm Action", JOptionPane.YES_NO_OPTION);
+			if(reply == JOptionPane.YES_OPTION){
+				System.exit(0);
+			}
 		}
 	}
 
