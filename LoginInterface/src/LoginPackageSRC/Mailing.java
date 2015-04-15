@@ -9,11 +9,13 @@ public class Mailing {
 	public static void main(String[] args) 
 	{
 		// Recipient's email ID needs to be mentioned.
-		String to = "alexander.nill@mycit.ie";
+		String to [] = new String[2];
+		to[0] = "alexander.nill@mycit.ie";
+		to[1] = "anill@stud.hs-offenburg.de";
 
 		// Sender's email ID needs to be mentioned
-		final String from = "raffkopf222@gmx.net";
-		final String pwd = "mypassword";
+		final String from = "societycit@gmail.com";		
+		final String pwd = "as1234df";
 
 		// Get system properties
 		Properties props = System.getProperties();
@@ -21,7 +23,7 @@ public class Mailing {
 		// Setup mail server
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "mail.gmx.net");
+		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
 		
 		Session session = Session.getInstance(props,
@@ -40,9 +42,12 @@ public class Mailing {
 			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(from));
 
-			// Set To: header field of the header.
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					to));
+			for(int i = 0; i<to.length; i++)
+			{
+				// Set To: header field of the header.
+				message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
+						to[i]));
+			}
 
 			// Set Subject: header field
 			message.setSubject("This is the Subject Line!");
