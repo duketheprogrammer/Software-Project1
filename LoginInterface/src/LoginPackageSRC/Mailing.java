@@ -8,12 +8,12 @@ import javax.activation.*;
 public class Mailing {
 	public static void main(String[] args) 
 	{
-		// Recipient's email ID needs to be mentioned.
+		// sending emails to myself for testing
 		String to [] = new String[2];
 		to[0] = "alexander.nill@mycit.ie";
 		to[1] = "anill@stud.hs-offenburg.de";
 
-		// Sender's email ID needs to be mentioned
+		// The sending mail and password
 		final String from = "societycit@gmail.com";		
 		final String pwd = "as1234df";
 
