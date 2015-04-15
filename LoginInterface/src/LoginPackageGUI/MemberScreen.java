@@ -21,7 +21,7 @@ public class MemberScreen implements ActionListener{
 	private JTextArea mini_textArea;
 	private JTextArea box2;
 	private JPasswordField passBox1, passBox2, passBox3;
-	private JButton m_button1, m_button2, m_button3, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4;
+	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4;
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
@@ -143,6 +143,11 @@ public class MemberScreen implements ActionListener{
 				m_button1.addActionListener(this);
 				m_button1.setBounds(30,350,162,32);
 				panel1.add(m_button1);
+				
+				m_button4 = new JButton("Contact Club");
+				m_button4.addActionListener(this);
+				m_button4.setBounds(202,350,162,32);
+				panel1.add(m_button4);				
 				
 				label3 = new JLabel("Events for Club");
 				label3.setFont(new Font("SimSun", Font.PLAIN, 14));
@@ -407,6 +412,9 @@ public class MemberScreen implements ActionListener{
 		}
 		
 		if(action.equals("De-Register From Club")){
+			JOptionPane.showMessageDialog(null, "Still under construction");
+		}
+		if(action.equals("Contact Club")){
 			JOptionPane.showMessageDialog(null, "Still under construction");
 		}
 		if(action.equals("Register For Club")){
