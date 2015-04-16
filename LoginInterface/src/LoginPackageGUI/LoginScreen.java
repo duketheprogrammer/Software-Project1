@@ -13,7 +13,7 @@ public class LoginScreen implements ActionListener{
 	 * @param args
 	 */
 
-	private JFrame frame;
+	private static JFrame frame;
 	private JPanel panel1;
 	private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13;
 	private JTextField box1, box2, box3, box4, box5, box6;
@@ -47,7 +47,7 @@ public class LoginScreen implements ActionListener{
 
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
 		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
-		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive");
+		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive");
 		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
@@ -58,13 +58,25 @@ public class LoginScreen implements ActionListener{
 
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
 
-		this.frame = frame;
+//		this.frame = frame;
+		clearFrame();
 		this.adminList = adminList;
 		this.clubList = clubList;
 		this.memberList = memberList;
 		initialize_1();
 	}
 
+	static JFrame getFrame()
+	{
+		return frame;
+	}
+	
+	static void clearFrame()
+	{
+		frame.getContentPane().removeAll();
+		frame.getContentPane().repaint();
+	}
+	
 	private void initialize(){
 
 		frame = new JFrame("Login Please");
@@ -258,7 +270,7 @@ public class LoginScreen implements ActionListener{
 						pW = true;
 						if(uN == true && pW == true){
 							if((a.getAccType()).equals("Admin")){
-								frame.getContentPane().removeAll();
+								clearFrame();
 								AdminScreen aS = new AdminScreen(frame, adminList, clubList, memberList, a);
 							}
 						}
@@ -272,7 +284,7 @@ public class LoginScreen implements ActionListener{
 						pW = true;
 						if(uN == true && pW == true){
 							if((m.getAccType()).equals("Member")){
-								frame.getContentPane().removeAll();
+								clearFrame();
 								MemberScreen mS = new MemberScreen(frame, adminList, clubList, memberList, m);
 							}
 						}

@@ -271,7 +271,7 @@ public class AdminScreen implements ActionListener{
 		if(action.equals("Logout")){
 			int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?","Confirm Action", JOptionPane.YES_NO_OPTION);
 			if(reply == JOptionPane.YES_OPTION){
-				frame.getContentPane().removeAll();
+				//frame.getContentPane().removeAll();
 				frame.getContentPane().repaint();
 				LoginScreen lS = new LoginScreen(frame, adminList, clubList, memberList);
 			}
