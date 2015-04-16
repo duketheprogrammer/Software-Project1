@@ -297,7 +297,7 @@ public class LoginScreen implements ActionListener{
 					JOptionPane.showMessageDialog(null, "Please Enter a Password");
 				}
 				else{
-					if(cPassWd.equals(passWd)){
+					if(passWd.equals(cPassWd)){
 						accType = "Member";
 						email = box3.getText();
 						fName = box4.getText();
@@ -311,6 +311,7 @@ public class LoginScreen implements ActionListener{
 								acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo);
 								((MemberAccount) acc).addClub(c.giveClubCacheToMembers());
 								c.addMember((MemberAccount) acc);
+								memberList.add((MemberAccount) acc);
 								JOptionPane.showMessageDialog(null, "Account Created");
 								d.dispose(); 
 							}

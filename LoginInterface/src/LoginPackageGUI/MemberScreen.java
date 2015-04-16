@@ -107,12 +107,12 @@ public class MemberScreen implements ActionListener{
 			
 				label1 = new JLabel(mA.getFName() + " " + mA.getLName() + "'s " + mA.getAccType() + " Page");
 				label1.setFont(new Font("SimSun", Font.BOLD, 22));
-				label1.setBounds(359,14,447,47);
+				label1.setBounds(465,0,447,47);
 				panel1.add(label1);
 				
 				label2 = new JLabel("Clubs & Societies Joined");
 				label2.setFont(new Font("SimSun", Font.PLAIN, 14));
-				label2.setBounds(204,51,215,32);
+				label2.setBounds(203,40,215,32);
 				panel1.add(label2);
 				
 				m_table1 = new JTable();
@@ -135,13 +135,13 @@ public class MemberScreen implements ActionListener{
 					}					
 				});
 				sp = new JScrollPane(m_table1);
-				sp.setBounds(20,84,588,255);
+				sp.setBounds(28,72,633,255);
 				panel1.add(sp);
 				displayRegisteredClubs();
 				
 				m_button1 = new JButton("De-Register From Club");
 				m_button1.addActionListener(this);
-				m_button1.setBounds(30,350,162,32);
+				m_button1.setBounds(28,338,162,32);
 				panel1.add(m_button1);
 				
 				m_button4 = new JButton("Contact Club");
@@ -151,7 +151,7 @@ public class MemberScreen implements ActionListener{
 				
 				label3 = new JLabel("Events for Club");
 				label3.setFont(new Font("SimSun", Font.PLAIN, 14));
-				label3.setBounds(941,51,215,32);
+				label3.setBounds(446,367,215,32);
 				panel1.add(label3);
 				
 				m_table2 = new JTable();
@@ -161,12 +161,12 @@ public class MemberScreen implements ActionListener{
 						},
 						new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
 				sp = new JScrollPane(m_table2);
-				sp.setBounds(710,84,570,255);
+				sp.setBounds(30,404,631,277);
 				panel1.add(sp);
 				
 				label4 = new JLabel("Available Clubs & Societies");
 				label4.setFont(new Font("SimSun", Font.PLAIN, 14));
-				label4.setBounds(524,350,215,32);
+				label4.setBounds(922,40,215,32);
 				panel1.add(label4);
 				
 				m_table3 = new JTable();
@@ -176,12 +176,12 @@ public class MemberScreen implements ActionListener{
 						},
 						new String[] {"CLUB_ID", "CLUB_NAME", "REC/COMP", "CLUB_DESCRIPTION" }));
 				sp = new JScrollPane(m_table3);
-				sp.setBounds(343,383,588,255);
+				sp.setBounds(710,72,588,255);
 				panel1.add(sp);
 				
 				m_button2 = new JButton("Register For Club");
 				m_button2.addActionListener(this);
-				m_button2.setBounds(785,649,146,32);
+				m_button2.setBounds(1152,338,146,32);
 				panel1.add(m_button2);
 			
 			panel2 = new JPanel(){
@@ -407,6 +407,7 @@ public class MemberScreen implements ActionListener{
 			int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?","Confirm Action", JOptionPane.YES_NO_OPTION);
 			if(reply == JOptionPane.YES_OPTION){
 				frame.getContentPane().removeAll();
+				frame.getContentPane().repaint();
 				LoginScreen lS = new LoginScreen(frame, adminList, clubList, memberList);
 			}
 		}
