@@ -11,7 +11,6 @@ public class Event {
 		setInfo(info);
 	}
 
-
 	public void setEventType(String eventType){
 		this.eventType = eventType;
 	}
