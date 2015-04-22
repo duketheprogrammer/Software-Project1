@@ -5,7 +5,7 @@ import java.util.*;
 public class MemberAccount extends Account{
 
 	private String email, fName, lName, pNo;
-	private ArrayList<Event> eventList;
+	private ArrayList<ClubEvent> eventList;
 	private ArrayList<Club> registeredClubs;
 
 	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo) {
@@ -15,7 +15,7 @@ public class MemberAccount extends Account{
 		setFName(fName);
 		setLName(lName);
 		setPNo(pNo);
-		eventList = new ArrayList<Event>();
+		eventList = new ArrayList<ClubEvent>();
 		registeredClubs = new ArrayList<Club>();
 	}
 
@@ -35,15 +35,15 @@ public class MemberAccount extends Account{
 		return registeredClubs.remove(index);
 	}
 	
-	public void addEvent(Event fix){
+	public void addEvent(ClubEvent fix){
 		eventList.add(fix);
 	}
 
-	public Event removeEvent(int index){
+	public ClubEvent removeEvent(int index){
 		return eventList.remove(index);
 	}
 
-	public Event getEvent(int i){
+	public ClubEvent getEvent(int i){
 		return eventList.get(i);
 	}
 

@@ -59,7 +59,7 @@ public class MailDialog extends JDialog {
 		this.add(textContent);	
 		
 		buttonSend = new JButton("send Mail");
-		buttonSend.setBounds(24, 538, 50, 22);
+		buttonSend.setBounds(24, 538, 200, 22);
 		buttonSend.addActionListener(new ActionListener() {
 			
 			@Override

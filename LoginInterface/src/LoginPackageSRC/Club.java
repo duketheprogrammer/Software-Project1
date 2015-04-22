@@ -9,7 +9,7 @@ public class Club {
 	
 	private int clubID;
 	private String clubName, clubDescription, clubType;
-	private ArrayList<Event> eventList;
+	private ArrayList<ClubEvent> eventList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<MemberAccount> committeeList;
 	
@@ -19,7 +19,7 @@ public class Club {
 		setClubName(clubName);
 		setClubDescription(clubDescription);
 		setClubType(clubType);
-		eventList = new ArrayList<Event>();
+		eventList = new ArrayList<ClubEvent>();
 		memberList = new ArrayList<MemberAccount>();
 		committeeList = new ArrayList<MemberAccount>();
 	}
@@ -68,11 +68,11 @@ public class Club {
 		return memberList.get(index);
 	}
 	
-	public void addEvent(Event fix){
+	public void addEvent(ClubEvent fix){
 		eventList.add(fix);
 	}
 	
-	public Event getEvent(int index){
+	public ClubEvent getEvent(int index){
 		return eventList.get(index);
 	}
 	

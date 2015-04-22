@@ -1,10 +1,10 @@
 package LoginPackageSRC;
 
-public class Event {
+public class ClubEvent {
 	
 	private String date, eventType, location, info;
 	
-	public Event(String eventType, String location, String date, String info){
+	public ClubEvent(String eventType, String location, String date, String info){
 		setEventType(eventType);
 		setLocation(location);
 		setDate(date);

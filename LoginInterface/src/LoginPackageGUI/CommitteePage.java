@@ -22,7 +22,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 
 import LoginPackageSRC.Club;
-import LoginPackageSRC.Event;
+import LoginPackageSRC.ClubEvent;
 
 import com.sun.corba.se.spi.orbutil.fsm.Action;
 
@@ -44,7 +44,7 @@ public class CommitteePage extends JFrame implements ActionListener {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private ArrayList<Object[]> list;
-	ArrayList<Event> eventList = new ArrayList<Event>();
+	ArrayList<ClubEvent> eventList = new ArrayList<ClubEvent>();
 
 
 	String[] busSizeArray = {"25", "40", "50"};
@@ -361,7 +361,7 @@ public class CommitteePage extends JFrame implements ActionListener {
 			location = locationField.getText();
 			info = infoField.getText();
 
-			Event eV = new Event(date, eventType, location, info);
+			ClubEvent eV = new ClubEvent(date, eventType, location, info);
 			eventList.add(eV);		
 			displayEventList();
 			c = false;

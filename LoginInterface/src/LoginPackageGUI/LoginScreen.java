@@ -62,6 +62,9 @@ public class LoginScreen implements ActionListener{
 		memberList.add(mA2);		mA2.addClub(club);
 		club.addMember(mA2);	 	club.addCommittee(mA2);
 		
+		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
+		club.addEvent(e);
+		
 	}
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
 
