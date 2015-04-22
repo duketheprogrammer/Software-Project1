@@ -44,7 +44,11 @@ public class LoginScreen implements ActionListener{
 		adminList = new ArrayList<AdminAccount>();
 		memberList = new ArrayList<MemberAccount>();
 		clubList = new ArrayList<Club>();
-
+		addTestData();
+	}
+	
+	private void addTestData()
+	{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
 		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
 		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive");
@@ -52,10 +56,13 @@ public class LoginScreen implements ActionListener{
 		clubList.add(club);
 		clubList.add(club2);
 		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
-		memberList.add(mA);		mA.addClub(club.giveClubCacheToMembers());
+		memberList.add(mA);		mA.addClub(club);
 		club.addMember(mA);	
+		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567");
+		memberList.add(mA2);		mA2.addClub(club);
+		club.addMember(mA2);	 	club.addCommittee(mA2);
+		
 	}
-
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
 
 //		this.frame = frame;
@@ -321,7 +328,7 @@ public class LoginScreen implements ActionListener{
 						for(Club c : clubList){
 							if(clubName.equals(c.getClubName())){
 								acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo);
-								((MemberAccount) acc).addClub(c.giveClubCacheToMembers());
+								((MemberAccount) acc).addClub(c);//c.giveClubCacheToMembers());
 								c.addMember((MemberAccount) acc);
 								memberList.add((MemberAccount) acc);
 								JOptionPane.showMessageDialog(null, "Account Created");

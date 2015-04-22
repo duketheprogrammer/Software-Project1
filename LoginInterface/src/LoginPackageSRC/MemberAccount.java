@@ -6,7 +6,7 @@ public class MemberAccount extends Account{
 
 	private String email, fName, lName, pNo;
 	private ArrayList<Event> eventList;
-	private ArrayList<ClubCache> registeredClubs;
+	private ArrayList<Club> registeredClubs;
 
 	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo) {
 		// TODO Auto-generated constructor stub
@@ -16,10 +16,10 @@ public class MemberAccount extends Account{
 		setLName(lName);
 		setPNo(pNo);
 		eventList = new ArrayList<Event>();
-		registeredClubs = new ArrayList<ClubCache>();
+		registeredClubs = new ArrayList<Club>();
 	}
 
-	public void addClub(ClubCache cc){
+	public void addClub(Club cc){
 		registeredClubs.add(cc);
 	}
 	
@@ -27,11 +27,11 @@ public class MemberAccount extends Account{
 		return registeredClubs.size();
 	}
 	
-	public ClubCache getClub(int index){
+	public Club getClub(int index){
 		return registeredClubs.get(index);
 	}
 	
-	public ClubCache removeClub(int index){
+	public Club removeClub(int index){
 		return registeredClubs.remove(index);
 	}
 	

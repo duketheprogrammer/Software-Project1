@@ -2,12 +2,16 @@ package LoginPackageSRC;
 
 import java.util.*;
 
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
+
 public class Club {
 	
 	private int clubID;
 	private String clubName, clubDescription, clubType;
 	private ArrayList<Event> eventList;
 	private ArrayList<MemberAccount> memberList;
+	private ArrayList<MemberAccount> committeeList;
 	
 	public Club(int clubID, String clubName, String clubDescription, String clubType) {
 		// TODO Auto-generated constructor stub
@@ -17,6 +21,7 @@ public class Club {
 		setClubType(clubType);
 		eventList = new ArrayList<Event>();
 		memberList = new ArrayList<MemberAccount>();
+		committeeList = new ArrayList<MemberAccount>();
 	}
 	
 	public MemberAccount removeMember(int index){
@@ -25,6 +30,38 @@ public class Club {
 	
 	public void addMember(MemberAccount m){
 		memberList.add(m);
+	}
+	
+	public MemberAccount removeCommittee(int index){
+		return committeeList.remove(index);
+	}
+	
+	public void addCommittee(MemberAccount m){
+		committeeList.add(m);
+	}
+	
+	public boolean getIsCommittee(MemberAccount mA) 
+	{
+		Iterator<MemberAccount> iter = committeeList.iterator();
+		while(iter.hasNext())
+		{
+				if(iter.next().equals(mA))
+				{
+					return true;
+				}
+		}
+		return false;
+	}
+	
+	public ArrayList<String> getCommitteeMails ()
+	{
+		ArrayList<String> mailList = new ArrayList<String>();
+		Iterator<MemberAccount> iter = committeeList.iterator();
+		while(iter.hasNext())
+		{
+			mailList.add(iter.next().getEmail());
+		}
+		return mailList;
 	}
 	
 	public MemberAccount getMember(int index){
@@ -83,4 +120,6 @@ public class Club {
 		ClubCache cc = new ClubCache(this.getClubID(), this.getClubName(), this.getClubDescription(), this.getClubType(), false);
 		return cc;
 	}
+
+
 }

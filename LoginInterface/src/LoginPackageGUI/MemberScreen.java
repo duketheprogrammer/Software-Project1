@@ -71,7 +71,7 @@ public class MemberScreen implements ActionListener{
 					
 					for(int i = 0; i < mA.getNoOfClubs(); i++){
 						if(clubName.equals(mA.getClub(i).getClubName())){
-							if(mA.getClub(i).getIsCommittee() == true){
+							if(mA.getClub(i).getIsCommittee(mA) == true){
 								lastPane = selectedPane;
 							}
 							else{
@@ -416,7 +416,9 @@ public class MemberScreen implements ActionListener{
 			JOptionPane.showMessageDialog(null, "Still under construction");
 		}
 		if(action.equals("Contact Club")){
-			JOptionPane.showMessageDialog(null, "Still under construction");
+			MailDialog mailer = new MailDialog();
+			mailer.contactClub(clubList.get(clubIndex), mA);
+			mailer.setVisible(true);
 		}
 		if(action.equals("Register For Club")){
 			JOptionPane.showMessageDialog(null, "Still under construction");
@@ -437,7 +439,7 @@ public class MemberScreen implements ActionListener{
 			list.add(new Object[] {
 					mA.getClub(i).getClubID(),
 					mA.getClub(i).getClubName(),
-					mA.getClub(i).getClubDesc(),
+					mA.getClub(i).getClubDescription(),
 					mA.getClub(i).getClubType()
 			});
 			
@@ -449,7 +451,7 @@ public class MemberScreen implements ActionListener{
 	
 	private void displayClubEvents(int index){
 		list = new ArrayList<Object[]>();
-		ClubCache cC = mA.getClub(index);
+		Club cC = mA.getClub(index);
 		
 		for(Club c : clubList){
 			
