@@ -2,12 +2,9 @@ package LoginPackageGUI;
 
 import LoginPackageSRC.*;
 
-import com.mysql.jdbc.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import java.sql.*;
 import java.sql.ResultSet;
 
 import javax.swing.*;
@@ -73,6 +70,7 @@ public class AdminScreen implements ActionListener{
 		frame.getContentPane().add(wP);
 
 		panel1 = new JPanel(){
+			@Override
 			protected void paintComponent(Graphics g){
 				super.paintComponent(g);
 				g.drawImage(getImage(), 0,0, wP.getWidth(), wP.getHeight(), null);
@@ -93,6 +91,7 @@ public class AdminScreen implements ActionListener{
 
 	
 		panel2 = new JPanel(){
+			@Override
 			protected void paintComponent(Graphics g){
 				super.paintComponent(g);
 				g.drawImage(getImage(), 0,0, wP.getWidth(), wP.getHeight(), null);
@@ -265,6 +264,7 @@ public class AdminScreen implements ActionListener{
 		frame.setMenuBar(menuBar);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e){
 		String action = e.getActionCommand();
 

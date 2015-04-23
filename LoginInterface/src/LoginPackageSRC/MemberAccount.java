@@ -6,7 +6,8 @@ public class MemberAccount extends Account{
 
 	private String email, fName, lName, pNo;
 	private ArrayList<ClubEvent> eventList;
-	private ArrayList<Club> registeredClubs;
+//	private ArrayList<Club> registeredClubs;
+	private ArrayList<ClubMembership> registeredClubs;
 
 	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo) {
 		// TODO Auto-generated constructor stub
@@ -16,23 +17,43 @@ public class MemberAccount extends Account{
 		setLName(lName);
 		setPNo(pNo);
 		eventList = new ArrayList<ClubEvent>();
-		registeredClubs = new ArrayList<Club>();
+		registeredClubs = new ArrayList<ClubMembership>();
 	}
 
-	public void addClub(Club cc){
-		registeredClubs.add(cc);
+	public void addClub(Club club){
+		ClubMembership cm = new ClubMembership(this, club);
+		club.addMembership(cm);
+		addClubMembership(cm);
 	}
-	
+	public void removeClub(Club club) {
+		Iterator<ClubMembership> iter = registeredClubs.iterator();
+		while(iter.hasNext())
+		{
+			ClubMembership cM = iter.next();
+			if(cM.getClub().equals(club))
+			{
+				cM.remove();
+				return;
+			}
+		}
+	}
+	public void addClubMembership(ClubMembership cm) {
+		registeredClubs.add(cm);
+	}	
 	public int getNoOfClubs(){
 		return registeredClubs.size();
 	}
 	
 	public Club getClub(int index){
-		return registeredClubs.get(index);
+		return registeredClubs.get(index).getClub();
 	}
 	
-	public Club removeClub(int index){
-		return registeredClubs.remove(index);
+	public void removeMembership(ClubMembership clubMembership) {
+		registeredClubs.remove(clubMembership);
+	}
+
+	public void removeClub(int index){
+		registeredClubs.get(index).remove();
 	}
 	
 	public void addEvent(ClubEvent fix){
@@ -93,5 +114,10 @@ public class MemberAccount extends Account{
 	public String getPNo(){
 		return pNo;
 	}
+
+
+
+
+
 
 }

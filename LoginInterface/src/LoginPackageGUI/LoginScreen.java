@@ -36,7 +36,7 @@ public class LoginScreen implements ActionListener{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		LoginScreen gui = new LoginScreen();
-		gui.frame.setVisible(true);
+		LoginScreen.frame.setVisible(true);
 	}
 
 	public LoginScreen(){
@@ -56,11 +56,14 @@ public class LoginScreen implements ActionListener{
 		clubList.add(club);
 		clubList.add(club2);
 		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
-		memberList.add(mA);		mA.addClub(club);
-		club.addMember(mA);	
+		memberList.add(mA);		
+		mA.addClub(club);
+//		club.addMember(mA);	
 		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567");
-		memberList.add(mA2);		mA2.addClub(club);
-		club.addMember(mA2);	 	club.addCommittee(mA2);
+		memberList.add(mA2);		
+		mA2.addClub(club);
+//		club.addMember(mA2);	 	
+		club.addCommittee(mA2);
 		
 		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
 		club.addEvent(e);
@@ -90,7 +93,7 @@ public class LoginScreen implements ActionListener{
 	private void initialize(){
 
 		frame = new JFrame("Login Please");
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setExtendedState(Frame.MAXIMIZED_BOTH);
 		frame.setUndecorated(true); 
 		//	frame.setSize(1000, 997);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,6 +107,7 @@ public class LoginScreen implements ActionListener{
 		frame.getContentPane().add(wP);
 
 		panel1 = new JPanel(){
+			@Override
 			protected void paintComponent(Graphics g){
 				super.paintComponent(g);
 				g.drawImage(getImage(), 0,0, 455, 450, null);
@@ -189,6 +193,7 @@ public class LoginScreen implements ActionListener{
 		frame.getContentPane().add(wP);
 
 		panel1 = new JPanel(){
+			@Override
 			protected void paintComponent(Graphics g){
 				super.paintComponent(g);
 				g.drawImage(getImage(), 0,0, 455, 450, null);
@@ -265,6 +270,7 @@ public class LoginScreen implements ActionListener{
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e){
 		String action = e.getActionCommand();
 

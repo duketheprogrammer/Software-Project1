@@ -97,6 +97,7 @@ public class Mailing {
 		
 		Session session = Session.getInstance(props,
 			new javax.mail.Authenticator() {
+				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(from, pwd);
 				}
@@ -115,7 +116,7 @@ public class Mailing {
 			{
 				// Set To: header field of the header.
 				message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
-						(String)iter.next()));
+						iter.next()));
 			}
 
 			// Set Subject: header field

@@ -2,16 +2,12 @@ package LoginPackageSRC;
 
 import java.util.*;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-
 public class Club {
 	
 	private int clubID;
 	private String clubName, clubDescription, clubType;
 	private ArrayList<ClubEvent> eventList;
-	private ArrayList<MemberAccount> memberList;
-	private ArrayList<MemberAccount> committeeList;
+	private ArrayList<ClubMembership> registeredMembers;
 	
 	public Club(int clubID, String clubName, String clubDescription, String clubType) {
 		// TODO Auto-generated constructor stub
@@ -20,47 +16,67 @@ public class Club {
 		setClubDescription(clubDescription);
 		setClubType(clubType);
 		eventList = new ArrayList<ClubEvent>();
-		memberList = new ArrayList<MemberAccount>();
-		committeeList = new ArrayList<MemberAccount>();
+		registeredMembers = new ArrayList<ClubMembership>();
 	}
-	
-	public MemberAccount removeMember(int index){
-		return memberList.remove(index);
+
+	public void removeMember(ClubMembership clubMembership) {
+		registeredMembers.remove(clubMembership);
+	}
+	public void removeMember(int index){
+		registeredMembers.get(index).remove();
 	}
 	
 	public void addMember(MemberAccount m){
-		memberList.add(m);
+		ClubMembership cm = new ClubMembership(m, this);
+		m.addClubMembership(cm);
+		addMembership(cm);
 	}
+	public void addMembership(ClubMembership cm) {
+		registeredMembers.add(cm);
+	}	
+//	public MemberAccount removeCommittee(int index){
+//		return committeeList.remove(index);
+//	}
 	
-	public MemberAccount removeCommittee(int index){
-		return committeeList.remove(index);
-	}
-	
-	public void addCommittee(MemberAccount m){
-		committeeList.add(m);
+	public void addCommittee(MemberAccount mA){
+		Iterator<ClubMembership> iter = registeredMembers.iterator();
+		while(iter.hasNext())
+		{
+			ClubMembership cM = iter.next();
+			if(cM.getMemberAccount().equals(mA))
+			{
+				cM.setCommittee(true);
+			}
+		}
 	}
 	
 	public boolean getIsCommittee(MemberAccount mA) 
 	{
-		Iterator<MemberAccount> iter = committeeList.iterator();
+		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
-				if(iter.next().equals(mA))
+			ClubMembership cM = iter.next();
+			if(cM.getMemberAccount().equals(mA))
+			{
+				if(cM.isCommittee())
 				{
 					return true;
 				}
+				return false;
+			}
 		}
 		return false;
 	}
 	public boolean getIsMember(MemberAccount mA) 
 	{
-		Iterator<MemberAccount> iter = memberList.iterator();
+		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
-				if(iter.next().equals(mA))
-				{
-					return true;
-				}
+			ClubMembership cM = iter.next();
+			if(cM.getMemberAccount().equals(mA))
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -68,16 +84,21 @@ public class Club {
 	public ArrayList<String> getCommitteeMails ()
 	{
 		ArrayList<String> mailList = new ArrayList<String>();
-		Iterator<MemberAccount> iter = committeeList.iterator();
+		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
-			mailList.add(iter.next().getEmail());
+			ClubMembership cM = iter.next();
+			if(cM.isCommittee())
+			{
+				mailList.add(cM.getMemberAccount().getEmail());
+			}
+
 		}
 		return mailList;
 	}
 	
 	public MemberAccount getMember(int index){
-		return memberList.get(index);
+		return registeredMembers.get(index).getMemberAccount();
 	}
 	
 	public void addEvent(ClubEvent fix){
@@ -93,7 +114,7 @@ public class Club {
 	}
 	
 	public int getMemberSize(){
-		return memberList.size();
+		return registeredMembers.size();
 	}
 	
 	public void setClubID(int clubID){
@@ -132,6 +153,9 @@ public class Club {
 		ClubCache cc = new ClubCache(this.getClubID(), this.getClubName(), this.getClubDescription(), this.getClubType(), false);
 		return cc;
 	}
+
+
+
 
 
 }

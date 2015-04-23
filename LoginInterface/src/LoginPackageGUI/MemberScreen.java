@@ -28,7 +28,7 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<AdminAccount> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
-	private ArrayList<Object []> registeredList, unregisteredList;
+	private ArrayList<Club> registeredList, unregisteredList;
 	private MemberAccount mA;
 	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2, comm_table3;
 	private JScrollPane sp, sp1;
@@ -57,8 +57,9 @@ public class MemberScreen implements ActionListener{
 		wP.setLayout(null);
 		
 				
-		mainTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		mainTabbedPane = new JTabbedPane(SwingConstants.TOP);
 		mainTabbedPane.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 			// note at this point the tab will be on another pane
 			//identify current pane
@@ -92,6 +93,7 @@ public class MemberScreen implements ActionListener{
 		wP.add(mainTabbedPane);
 			
 			panel1 = new JPanel(){
+				@Override
 				protected void paintComponent(Graphics g){
 					super.paintComponent(g);
 					g.drawImage(getImage(), 0,0, mainTabbedPane.getWidth(), mainTabbedPane.getHeight(), null);
@@ -127,7 +129,7 @@ public class MemberScreen implements ActionListener{
 					public void mouseClicked(MouseEvent e) {
 						// TODO Auto-generated method stub
 						int index = m_table1.rowAtPoint(e.getPoint());
-						
+						m_table3.clearSelection();
 						if(index != -1){
 							clubIndex = index;
 							displayClubEvents(index);
@@ -174,6 +176,19 @@ public class MemberScreen implements ActionListener{
 						new Object[][] {
 						},
 						new String[] {"CLUB_ID", "CLUB_NAME", "REC/COMP", "CLUB_DESCRIPTION" }));
+				m_table3.addMouseListener(new MouseAdapter(){
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						int index = m_table3.rowAtPoint(e.getPoint());
+						m_table1.clearSelection();
+						if(index != -1){
+							clubIndex = index;
+							displayClubEvents(index);
+						}
+					}					
+				});
 				sp = new JScrollPane(m_table3);
 				sp.setBounds(710,72,588,255);
 				panel1.add(sp);
@@ -185,6 +200,7 @@ public class MemberScreen implements ActionListener{
 				panel1.add(m_button2);
 			
 			panel2 = new JPanel(){
+				@Override
 				protected void paintComponent(Graphics g){
 					super.paintComponent(g);
 					g.drawImage(getImage(), 0,0, mainTabbedPane.getWidth(), mainTabbedPane.getHeight(), null);
@@ -198,11 +214,12 @@ public class MemberScreen implements ActionListener{
 			panel2.setLayout(null);
 			mainTabbedPane.add(panel2, "COMMITTEE");
 			
-				comm_tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				comm_tabbedPane = new JTabbedPane(SwingConstants.TOP);
 				comm_tabbedPane.setBounds(0,0,1308,692);
 				panel2.add(comm_tabbedPane);
 					
 						eventPanel = new JPanel(){
+							@Override
 							protected void paintComponent(Graphics g){
 								super.paintComponent(g);
 								g.drawImage(getImage(), 0,0, mainTabbedPane.getWidth(), mainTabbedPane.getHeight(), null);
@@ -306,6 +323,7 @@ public class MemberScreen implements ActionListener{
 						doubleSplitPane.setBottomComponent(mini_panel2);
 						
 					membersPanel = new JPanel(){
+							@Override
 							protected void paintComponent(Graphics g){
 								super.paintComponent(g);
 								g.drawImage(getImage(), 0,0, mainTabbedPane.getWidth(), mainTabbedPane.getHeight(), null);
@@ -374,6 +392,7 @@ public class MemberScreen implements ActionListener{
 							doubleSplitPane1.setBottomComponent(mini_panel4);
 					
 					equipmentPanel = new JPanel(){
+						@Override
 						protected void paintComponent(Graphics g){
 							super.paintComponent(g);
 							g.drawImage(getImage(), 0,0, mainTabbedPane.getWidth(), mainTabbedPane.getHeight(), null);
@@ -413,15 +432,49 @@ public class MemberScreen implements ActionListener{
 		}
 		
 		if(action.equals("De-Register From Club")){
-			JOptionPane.showMessageDialog(null, "Still under construction");
+			int index = m_table1.getSelectedRow();
+			if(index < 0)
+			{
+				JOptionPane.showMessageDialog(null, "no club selected");
+				return;
+			}
+			Club club = registeredList.get(index);
+			mA.removeClub(club);
+			displayClubs();
+			JOptionPane.showMessageDialog(null, "Successfully unregistered from " + club.getClubName());
 		}
 		if(action.equals("Contact Club")){
+			Club club;
+			int index = m_table3.getSelectedRow();
+			if(index < 0)
+			{
+				index = m_table1.getSelectedRow();
+				if(index < 0)
+				{
+					JOptionPane.showMessageDialog(null, "no club selected");
+					return;
+				}
+				club = registeredList.get(index);
+			}
+			else
+			{
+				club = unregisteredList.get(index);
+			}
 			MailDialog mailer = new MailDialog();
-			mailer.contactClub(clubList.get(clubIndex), mA);
+			mailer.contactClub(club, mA);
 			mailer.setVisible(true);
 		}
 		if(action.equals("Register For Club")){
-			JOptionPane.showMessageDialog(null, "Still under construction");
+			int index = m_table3.getSelectedRow();
+			if(index < 0)
+			{
+				JOptionPane.showMessageDialog(null, "no club selected");
+				return;
+			}
+			Club club = unregisteredList.get(index);
+			mA.addClub(club);
+			displayClubs();
+			JOptionPane.showMessageDialog(null, "Successfully registered for " + club.getClubName());
 		}
 		if(action.equals("Cancel Committee Check")){
 			d.dispose();
@@ -436,32 +489,37 @@ public class MemberScreen implements ActionListener{
 	
 	private void displayClubs()
 	{
-		registeredList = new ArrayList<Object[]>();
-		unregisteredList = new ArrayList<Object[]>();
+		ArrayList<Object []> registered, unregistered;
+		registered = new ArrayList<Object[]>();
+		unregistered = new ArrayList<Object[]>();
+		registeredList = new ArrayList<Club>();
+		unregisteredList = new ArrayList<Club>();
 		for(int i = 0; i < clubList.size(); i++){
 			Club club=clubList.get(i);
 			if (club.getIsMember(mA))
 			{
-				registeredList.add(new Object[] {
+				registered.add(new Object[] {
 						club.getClubID(),
 						club.getClubName(),
 						club.getClubDescription(),
 						club.getClubType()
 				});
+				registeredList.add(club);
 			}
 			else
 			{
-				unregisteredList.add(new Object[] {
+				unregistered.add(new Object[] {
 						club.getClubID(),
 						club.getClubName(),
 						club.getClubDescription(),
 						club.getClubType()
 				});
+				unregisteredList.add(club);
 			}
 		}
-		m_table1.setModel(new DefaultTableModel(registeredList.toArray(new Object[][] {}), 
+		m_table1.setModel(new DefaultTableModel(registered.toArray(new Object[][] {}), 
 				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
-		m_table3.setModel(new DefaultTableModel(unregisteredList.toArray(new Object[][] {}), 
+		m_table3.setModel(new DefaultTableModel(unregistered.toArray(new Object[][] {}), 
 				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));		
 	}
 //	private void displayRegisteredClubs(){

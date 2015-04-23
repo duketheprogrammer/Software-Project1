@@ -1,8 +1,5 @@
 package LoginPackageGUI;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,20 +8,18 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 
-import LoginPackageSRC.Club;
 import LoginPackageSRC.ClubEvent;
-
-import com.sun.corba.se.spi.orbutil.fsm.Action;
 
 
 public class CommitteePage extends JFrame implements ActionListener {
@@ -82,7 +77,7 @@ public class CommitteePage extends JFrame implements ActionListener {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		tabbedPane.setBounds(10, 11, 1224, 942);
 		panel.add(tabbedPane);
 
@@ -232,6 +227,7 @@ public class CommitteePage extends JFrame implements ActionListener {
 
 		JButton addMemButton = new JButton("Add Member");
 		addMemButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
@@ -348,6 +344,7 @@ public class CommitteePage extends JFrame implements ActionListener {
 		panel_1.add(orderButton);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e){
 		
 		boolean c = false;
