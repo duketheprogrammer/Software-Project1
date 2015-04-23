@@ -52,6 +52,18 @@ public class Club {
 		}
 		return false;
 	}
+	public boolean getIsMember(MemberAccount mA) 
+	{
+		Iterator<MemberAccount> iter = memberList.iterator();
+		while(iter.hasNext())
+		{
+				if(iter.next().equals(mA))
+				{
+					return true;
+				}
+		}
+		return false;
+	}
 	
 	public ArrayList<String> getCommitteeMails ()
 	{

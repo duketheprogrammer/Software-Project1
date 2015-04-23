@@ -28,7 +28,7 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<AdminAccount> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
-	private ArrayList<Object []> list;
+	private ArrayList<Object []> registeredList, unregisteredList;
 	private MemberAccount mA;
 	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2, comm_table3;
 	private JScrollPane sp, sp1;
@@ -137,7 +137,6 @@ public class MemberScreen implements ActionListener{
 				sp = new JScrollPane(m_table1);
 				sp.setBounds(28,72,633,255);
 				panel1.add(sp);
-				displayRegisteredClubs();
 				
 				m_button1 = new JButton("De-Register From Club");
 				m_button1.addActionListener(this);
@@ -178,6 +177,7 @@ public class MemberScreen implements ActionListener{
 				sp = new JScrollPane(m_table3);
 				sp.setBounds(710,72,588,255);
 				panel1.add(sp);
+				displayClubs();
 				
 				m_button2 = new JButton("Register For Club");
 				m_button2.addActionListener(this);
@@ -430,27 +430,59 @@ public class MemberScreen implements ActionListener{
 			String clubName = (String)comboBox.getSelectedItem(); 
 			JOptionPane.showMessageDialog(null, clubName);
 		}
-	}
-	
-	private void displayRegisteredClubs(){
-		list = new ArrayList<Object[]>();
-		for(int i = 0; i < mA.getNoOfClubs(); i++){
-			
-			list.add(new Object[] {
-					mA.getClub(i).getClubID(),
-					mA.getClub(i).getClubName(),
-					mA.getClub(i).getClubDescription(),
-					mA.getClub(i).getClubType()
-			});
-			
-		}
-		m_table1.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
-				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
+		
 		
 	}
 	
+	private void displayClubs()
+	{
+		registeredList = new ArrayList<Object[]>();
+		unregisteredList = new ArrayList<Object[]>();
+		for(int i = 0; i < clubList.size(); i++){
+			Club club=clubList.get(i);
+			if (club.getIsMember(mA))
+			{
+				registeredList.add(new Object[] {
+						club.getClubID(),
+						club.getClubName(),
+						club.getClubDescription(),
+						club.getClubType()
+				});
+			}
+			else
+			{
+				unregisteredList.add(new Object[] {
+						club.getClubID(),
+						club.getClubName(),
+						club.getClubDescription(),
+						club.getClubType()
+				});
+			}
+		}
+		m_table1.setModel(new DefaultTableModel(registeredList.toArray(new Object[][] {}), 
+				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
+		m_table3.setModel(new DefaultTableModel(unregisteredList.toArray(new Object[][] {}), 
+				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));		
+	}
+//	private void displayRegisteredClubs(){
+//		list = new ArrayList<Object[]>();
+//		for(int i = 0; i < mA.getNoOfClubs(); i++){
+//			
+//			list.add(new Object[] {
+//					mA.getClub(i).getClubID(),
+//					mA.getClub(i).getClubName(),
+//					mA.getClub(i).getClubDescription(),
+//					mA.getClub(i).getClubType()
+//			});
+//			
+//		}
+//		m_table1.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+//				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
+//		
+//	}
+	
 	private void displayClubEvents(int index){
-		list = new ArrayList<Object[]>();
+		ArrayList<Object[]> list = new ArrayList<Object[]>();
 		Club cC = mA.getClub(index);
 		
 		for(Club c : clubList){
