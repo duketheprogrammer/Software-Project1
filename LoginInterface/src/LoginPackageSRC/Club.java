@@ -81,16 +81,16 @@ public class Club {
 		return false;
 	}
 	
-	public ArrayList<String> getCommitteeMails ()
+	public ArrayList<MemberAccount> getCommitteeMails ()
 	{
-		ArrayList<String> mailList = new ArrayList<String>();
+		ArrayList<MemberAccount> mailList = new ArrayList<MemberAccount>();
 		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
 			ClubMembership cM = iter.next();
 			if(cM.isCommittee())
 			{
-				mailList.add(cM.getMemberAccount().getEmail());
+				mailList.add(cM.getMemberAccount());
 			}
 
 		}

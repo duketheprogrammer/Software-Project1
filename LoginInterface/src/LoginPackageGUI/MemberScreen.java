@@ -49,6 +49,7 @@ public class MemberScreen implements ActionListener{
 	private JPanel mini_panel6;
 	private JButton mini_button6;
 	private JButton mini_button7;
+	private JTable m_tableCommittee;
 	
 	
 	public MemberScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
@@ -211,6 +212,14 @@ public class MemberScreen implements ActionListener{
 		sp.setBounds(710, 72, 588, 255);
 		panel1.add(sp);
 		displayClubs();
+		
+		m_tableCommittee = new JTable();
+		m_tableCommittee.setFillsViewportHeight(true);
+		m_tableCommittee.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Name", "E-Mail" }));
+		sp = new JScrollPane(m_tableCommittee);
+		sp.setBounds(710, 404, 588, 255);
+		panel1.add(sp);
 
 		m_button2 = new JButton("Register For Club");
 		m_button2.addActionListener(this);
@@ -624,6 +633,7 @@ public class MemberScreen implements ActionListener{
 	
 	private void displayClubEvents(Club club){
 		ArrayList<Object[]> list = new ArrayList<Object[]>();
+		ArrayList<Object[]> list2 = new ArrayList<Object[]>();
 
 		for(int i = 0; i < club.getNoOfEvents(); i++){
 			
@@ -634,8 +644,20 @@ public class MemberScreen implements ActionListener{
 					club.getEvent(i).getInfo()
 			});		
 		}
+		Iterator<MemberAccount> iter = club.getCommitteeMails().iterator();
+		while(iter.hasNext())
+		{
+			MemberAccount committee = iter.next();
+			list2.add(new Object[] {
+					committee.getFName(),
+					committee.getLName(),
+					committee.getEmail()
+			});
+		}
 		m_table2.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
 				new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
+		m_tableCommittee.setModel(new DefaultTableModel(list2.toArray(new Object[][] {}), 
+				new String[] {"FirstName", "LastName", "E-mail"}));
 
 	}
 
