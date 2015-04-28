@@ -52,21 +52,23 @@ public class LoginScreen implements ActionListener{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
 		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
 		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive");
+		Club club3 = new Club(34567, "V", "V", "Recreational/Competitive");
 		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
+		clubList.add(club3);
 		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
 		memberList.add(mA);		
 		mA.addClub(club);
-//		club.addMember(mA);	
 		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567");
 		memberList.add(mA2);		
 		mA2.addClub(club);
-//		club.addMember(mA2);	 	
 		club.addCommittee(mA2);
 		
 		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
-		club.addEvent(e);
+		club.addEvent(e);		
+		ClubEvent e2 = new ClubEvent("olleh", "e", "t", "g");
+		club2.addEvent(e2);
 		
 	}
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){

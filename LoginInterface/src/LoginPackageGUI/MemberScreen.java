@@ -30,7 +30,7 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<Club> clubList;
 	private ArrayList<Club> registeredList, unregisteredList;
 	private MemberAccount mA;
-	private JTable m_table1, m_table2, m_table3, comm_table1, comm_table2, comm_table3;
+	private JTable m_tableRegisteredClubs, m_table2, m_tableAvailableClubs, comm_table1, comm_table2, comm_table3;
 	private JScrollPane sp, sp1;
 	private WelcomePanel wP;
 	private JSplitPane splitPane, doubleSplitPane, doubleSplitPane1, splitPane1;
@@ -140,25 +140,24 @@ public class MemberScreen implements ActionListener{
 		label2.setBounds(203, 40, 215, 32);
 		panel1.add(label2);
 
-		m_table1 = new JTable();
-		m_table1.setFillsViewportHeight(true);
-		m_table1.setModel(new DefaultTableModel(new Object[][] {},
+		m_tableRegisteredClubs = new JTable();
+		m_tableRegisteredClubs.setFillsViewportHeight(true);
+		m_tableRegisteredClubs.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "CLUB_ID", "CLUB_NAME", "REC/COMP",
 						"CLUB_DESCRIPTION" }));
-		m_table1.addMouseListener(new MouseAdapter() {
+		m_tableRegisteredClubs.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				int index = m_table1.rowAtPoint(e.getPoint());
-				m_table3.clearSelection();
+				int index = m_tableRegisteredClubs.rowAtPoint(e.getPoint());
+				m_tableAvailableClubs.clearSelection();
 				if (index != -1) {
-					clubIndex = index;
-					displayClubEvents(index);
+					displayClubEvents(registeredList.get(index));
 				}
 			}
 		});
-		sp = new JScrollPane(m_table1);
+		sp = new JScrollPane(m_tableRegisteredClubs);
 		sp.setBounds(28, 72, 633, 255);
 		panel1.add(sp);
 
@@ -191,25 +190,24 @@ public class MemberScreen implements ActionListener{
 		label4.setBounds(922, 40, 215, 32);
 		panel1.add(label4);
 
-		m_table3 = new JTable();
-		m_table3.setFillsViewportHeight(true);
-		m_table3.setModel(new DefaultTableModel(new Object[][] {},
+		m_tableAvailableClubs = new JTable();
+		m_tableAvailableClubs.setFillsViewportHeight(true);
+		m_tableAvailableClubs.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "CLUB_ID", "CLUB_NAME", "REC/COMP",
 						"CLUB_DESCRIPTION" }));
-		m_table3.addMouseListener(new MouseAdapter() {
+		m_tableAvailableClubs.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				int index = m_table3.rowAtPoint(e.getPoint());
-				m_table1.clearSelection();
+				int index = m_tableAvailableClubs.rowAtPoint(e.getPoint());
+				m_tableRegisteredClubs.clearSelection();
 				if (index != -1) {
-					clubIndex = index;
-					displayClubEvents(index);
+					displayClubEvents(unregisteredList.get(index));
 				}
 			}
 		});
-		sp = new JScrollPane(m_table3);
+		sp = new JScrollPane(m_tableAvailableClubs);
 		sp.setBounds(710, 72, 588, 255);
 		panel1.add(sp);
 		displayClubs();
@@ -517,7 +515,7 @@ public class MemberScreen implements ActionListener{
 		}
 		
 		if(action.equals("De-Register From Club")){
-			int index = m_table1.getSelectedRow();
+			int index = m_tableRegisteredClubs.getSelectedRow();
 			if(index < 0)
 			{
 				JOptionPane.showMessageDialog(null, "no club selected");
@@ -530,10 +528,10 @@ public class MemberScreen implements ActionListener{
 		}
 		if(action.equals("Contact Club")){
 			Club club;
-			int index = m_table3.getSelectedRow();
+			int index = m_tableAvailableClubs.getSelectedRow();
 			if(index < 0)
 			{
-				index = m_table1.getSelectedRow();
+				index = m_tableRegisteredClubs.getSelectedRow();
 				if(index < 0)
 				{
 					JOptionPane.showMessageDialog(null, "no club selected");
@@ -550,7 +548,7 @@ public class MemberScreen implements ActionListener{
 			mailer.setVisible(true);
 		}
 		if(action.equals("Register For Club")){
-			int index = m_table3.getSelectedRow();
+			int index = m_tableAvailableClubs.getSelectedRow();
 			if(index < 0)
 			{
 				JOptionPane.showMessageDialog(null, "no club selected");
@@ -602,9 +600,9 @@ public class MemberScreen implements ActionListener{
 				unregisteredList.add(club);
 			}
 		}
-		m_table1.setModel(new DefaultTableModel(registered.toArray(new Object[][] {}), 
+		m_tableRegisteredClubs.setModel(new DefaultTableModel(registered.toArray(new Object[][] {}), 
 				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));
-		m_table3.setModel(new DefaultTableModel(unregistered.toArray(new Object[][] {}), 
+		m_tableAvailableClubs.setModel(new DefaultTableModel(unregistered.toArray(new Object[][] {}), 
 				new String[] {"CLUB_ID", "CLUB_NAME", "CLUB_DESCRIPTION", "CLUB_TYPE"}));		
 	}
 //	private void displayRegisteredClubs(){
@@ -624,26 +622,21 @@ public class MemberScreen implements ActionListener{
 //		
 //	}
 	
-	private void displayClubEvents(int index){
+	private void displayClubEvents(Club club){
 		ArrayList<Object[]> list = new ArrayList<Object[]>();
-		Club cC = mA.getClub(index);
-		
-		for(Club c : clubList){
+
+		for(int i = 0; i < club.getNoOfEvents(); i++){
 			
-			if (cC.getClubID() == c.getClubID()){
-				for(int i = 0; i < c.getNoOfEvents(); i++){
-					
-					list.add(new Object[] {
-							c.getEvent(i).getEventType(),
-							c.getEvent(i).getLocation(),
-							c.getEvent(i).getDate(),
-							c.getEvent(i).getInfo()
-					});		
-				}
-				m_table2.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
-						new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
-			}
+			list.add(new Object[] {
+					club.getEvent(i).getEventType(),
+					club.getEvent(i).getLocation(),
+					club.getEvent(i).getDate(),
+					club.getEvent(i).getInfo()
+			});		
 		}
+		m_table2.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+				new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
+
 	}
 
 	private void initalizeCommitteeCheckerDialog(){
