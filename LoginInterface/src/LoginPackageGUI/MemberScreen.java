@@ -37,6 +37,18 @@ public class MemberScreen implements ActionListener{
 	private JDialog d;
 	private JComboBox comboBox;
 	private int clubIndex;
+	private JSplitPane doubleSplitPane2;
+	private JSplitPane splitPane2;
+	private JScrollPane sp2;
+	private JTable comm_table4;
+	private JPanel mini_panel5;
+	private JLabel mini_label6;
+	private JTextField mini_box6;
+	private JLabel mini_label7;
+	private JTextField mini_box7;
+	private JPanel mini_panel6;
+	private JButton mini_button6;
+	private JButton mini_button7;
 	
 	
 	public MemberScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
@@ -70,21 +82,28 @@ public class MemberScreen implements ActionListener{
 				
 				if(tab.equals("COMMITTEE")){
 					String clubName = JOptionPane.showInputDialog(null, "Please enter the name of the club you are a committee member of:");
-					
-					for(int i = 0; i < mA.getNoOfClubs(); i++){
-						if(clubName.equals(mA.getClub(i).getClubName())){
-							if(mA.getClub(i).getIsCommittee(mA) == true){
-								lastPane = selectedPane;
+					if(clubName == null)
+					{
+						JOptionPane.showMessageDialog(null, "Enter name of a club, please");
+						mainTabbedPane.setSelectedIndex(lastPane);					
+					}
+					else
+					{
+						for(int i = 0; i < mA.getNoOfClubs(); i++){
+							if(clubName.equals(mA.getClub(i).getClubName())){
+								if(mA.getClub(i).getIsCommittee(mA) == true){
+									lastPane = selectedPane;
+								}
+								else{
+									JOptionPane.showMessageDialog(null, "You are not a committee member for this club");
+									mainTabbedPane.setSelectedIndex(lastPane);
+								}
+								
 							}
 							else{
-								JOptionPane.showMessageDialog(null, "You are not a committee member for this club");
+								JOptionPane.showMessageDialog(null, "You might not be registered for this club" + "\nor the club does not exist");
 								mainTabbedPane.setSelectedIndex(lastPane);
 							}
-							
-						}
-						else{
-							JOptionPane.showMessageDialog(null, "You might not be registered for this club" + "\nor the club does not exist");
-							mainTabbedPane.setSelectedIndex(lastPane);
 						}
 					}
 				}
@@ -408,7 +427,70 @@ public class MemberScreen implements ActionListener{
 		};
 		equipmentPanel.setLayout(null);
 		comm_tabbedPane.add(equipmentPanel, "EQUIPMENT");
+		
+		doubleSplitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		doubleSplitPane2.setOneTouchExpandable(true);
+		doubleSplitPane2.setBounds(28,11,1125,570);
+		equipmentPanel.add(doubleSplitPane2);
 
+
+		splitPane2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane2.setOneTouchExpandable(true);
+		splitPane2.setBounds(10,11,629,522);
+		doubleSplitPane2.setTopComponent(splitPane2);
+
+		sp2 = new JScrollPane();
+		splitPane2.setLeftComponent(sp2);
+
+		comm_table4 = new JTable();
+		sp2.setViewportView(comm_table4);
+		comm_table4.setFillsViewportHeight(true);
+		comm_table4.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {"Type", "Stock", "Cost"}));
+
+		mini_panel5 = new JPanel();
+		mini_panel5.setLayout(null);
+
+		mini_label6 = new JLabel("Type:");
+		mini_label6.setFont(new Font("SimSun", Font.PLAIN, 14));
+		mini_label6.setBounds(10,5,69,33);
+		mini_panel5.add(mini_label6);
+
+		mini_box6 = new JTextField();
+		mini_box6.setBounds(89,5,200,33);
+		mini_panel5.add(mini_box6);
+
+		mini_label7 = new JLabel("Quantity:");
+		mini_label7.setFont(new Font("SimSun", Font.PLAIN, 14));
+		mini_label7.setBounds(10,50,69,33);
+		mini_panel5.add(mini_label7);
+
+		mini_box7 = new JTextField();
+		mini_box7.setBounds(89,50,200,33);
+		mini_panel5.add(mini_box7);
+
+		splitPane2.setRightComponent(mini_panel5);
+		splitPane2.setResizeWeight(0.5);
+
+
+		mini_panel6 = new JPanel();
+		mini_panel6.setLayout(null);
+
+		mini_button6 = new JButton("Edit Stock");
+		mini_button6.addActionListener(this);
+		mini_button6.setBounds(10,11,147,33);
+		mini_panel6.add(mini_button6);
+
+		mini_button7 = new JButton("Order");
+		mini_button7.addActionListener(this);
+		mini_button7.setBounds(879,11,147,33);
+		mini_panel6.add(mini_button7);
+
+		doubleSplitPane2.setResizeWeight(0.5);
+		doubleSplitPane2.setBottomComponent(mini_panel6);
+		
 		menuBar = new MenuBar();
 		mOpt1 = new Menu("File"); //Create new Menu
 		menuBar.add(mOpt1);
