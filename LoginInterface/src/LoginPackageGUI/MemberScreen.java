@@ -17,8 +17,8 @@ public class MemberScreen implements ActionListener{
 	private JPanel panel1, panel2, eventPanel, membersPanel,equipmentPanel, mini_panel1, mini_panel2, mini_panel3, mini_panel4;
 	private JTabbedPane mainTabbedPane, comm_tabbedPane;
 	private JLabel label1, label2, label3, label4, mini_label1, mini_label2, mini_label3, mini_label4, mini_label5, comm_D_label1;
-	private JTextField mini_box1, mini_box2, mini_box3, mini_box4, mini_box5, box5, box6, box7;
-	private JTextArea mini_textArea;
+	private JTextField editType, editLocation, editDate, mini_box4, mini_box5, box5, box6, box7;
+	private JTextArea editEventInfo;
 	private JTextArea box2;
 	private JPasswordField passBox1, passBox2, passBox3;
 	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4;
@@ -29,14 +29,14 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
 	private ArrayList<Club> registeredList, unregisteredList;
+	private Club selectedClub;
 	private MemberAccount mA;
-	private JTable m_tableRegisteredClubs, m_table2, m_tableAvailableClubs, comm_table1, comm_table2, comm_table3;
+	private JTable m_tableRegisteredClubs, m_tableEvents, m_tableAvailableClubs, comm_tableEvent, comm_table2, comm_tableMembers;
 	private JScrollPane sp, sp1;
 	private WelcomePanel wP;
 	private JSplitPane splitPane, doubleSplitPane, doubleSplitPane1, splitPane1;
 	private JDialog d;
 	private JComboBox comboBox;
-	private int clubIndex;
 	private JSplitPane doubleSplitPane2;
 	private JSplitPane splitPane2;
 	private JScrollPane sp2;
@@ -82,7 +82,12 @@ public class MemberScreen implements ActionListener{
 				
 				
 				if(tab.equals("COMMITTEE")){
-					String clubName = JOptionPane.showInputDialog(null, "Please enter the name of the club you are a committee member of:");
+					String clubName = "";
+					if(selectedClub != null)
+					{
+						clubName = selectedClub.getClubName();
+					}
+					clubName = JOptionPane.showInputDialog(null, "Please enter the name of the club you are a committee member of:",clubName);
 					if(clubName == null)
 					{
 						JOptionPane.showMessageDialog(null, "Enter name of a club, please");
@@ -94,6 +99,7 @@ public class MemberScreen implements ActionListener{
 							if(clubName.equals(mA.getClub(i).getClubName())){
 								if(mA.getClub(i).getIsCommittee(mA) == true){
 									lastPane = selectedPane;
+									fillCommitteeTab();
 								}
 								else{
 									JOptionPane.showMessageDialog(null, "You are not a committee member for this club");
@@ -102,13 +108,15 @@ public class MemberScreen implements ActionListener{
 								
 							}
 							else{
-								JOptionPane.showMessageDialog(null, "You might not be registered for this club" + "\nor the club does not exist");
+								JOptionPane.showMessageDialog(null, "You might not be registered for "+ clubName + "\nor the club does not exist");
 								mainTabbedPane.setSelectedIndex(lastPane);
 							}
 						}
 					}
 				}
 			}
+
+
 		});
 		mainTabbedPane.setBounds(24, 11, 1313, 720);
 		wP.add(mainTabbedPane);
@@ -177,12 +185,12 @@ public class MemberScreen implements ActionListener{
 		label3.setBounds(446, 367, 215, 32);
 		panel1.add(label3);
 
-		m_table2 = new JTable();
-		m_table2.setFillsViewportHeight(true);
-		m_table2.setModel(new DefaultTableModel(new Object[][] {},
+		m_tableEvents = new JTable();
+		m_tableEvents.setFillsViewportHeight(true);
+		m_tableEvents.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE",
 						"EVENT_INFO" }));
-		sp = new JScrollPane(m_table2);
+		sp = new JScrollPane(m_tableEvents);
 		sp.setBounds(30, 404, 631, 277);
 		panel1.add(sp);
 
@@ -277,10 +285,10 @@ public class MemberScreen implements ActionListener{
 		sp = new JScrollPane();
 		splitPane.setLeftComponent(sp);
 
-		comm_table1 = new JTable();
-		sp.setViewportView(comm_table1);
-		comm_table1.setFillsViewportHeight(true);
-		comm_table1.setModel(new DefaultTableModel(new Object[][] {},
+		comm_tableEvent = new JTable();
+		sp.setViewportView(comm_tableEvent);
+		comm_tableEvent.setFillsViewportHeight(true);
+		comm_tableEvent.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE",
 						"EVENT_INFO" }));
 
@@ -292,37 +300,37 @@ public class MemberScreen implements ActionListener{
 		mini_label1.setBounds(10, 5, 69, 33);
 		mini_panel1.add(mini_label1);
 
-		mini_box1 = new JTextField();
-		mini_box1.setBounds(89, 5, 200, 33);
-		mini_panel1.add(mini_box1);
+		editType = new JTextField();
+		editType.setBounds(89, 5, 200, 33);
+		mini_panel1.add(editType);
 
 		mini_label2 = new JLabel("Location:");
 		mini_label2.setFont(new Font("SimSun", Font.PLAIN, 14));
 		mini_label2.setBounds(10, 49, 69, 33);
 		mini_panel1.add(mini_label2);
 
-		mini_box2 = new JTextField();
-		mini_box2.setBounds(89, 49, 200, 33);
-		mini_panel1.add(mini_box2);
+		editLocation = new JTextField();
+		editLocation.setBounds(89, 49, 200, 33);
+		mini_panel1.add(editLocation);
 
 		mini_label3 = new JLabel("Time & Date");
 		mini_label3.setFont(new Font("SimSun", Font.PLAIN, 14));
 		mini_label3.setBounds(10, 95, 92, 33);
 		mini_panel1.add(mini_label3);
 
-		mini_box3 = new JTextField();
-		mini_box3.setBounds(89, 93, 200, 33);
-		mini_panel1.add(mini_box3);
+		editDate = new JTextField();
+		editDate.setBounds(89, 93, 200, 33);
+		mini_panel1.add(editDate);
 
 		mini_label4 = new JLabel("Event Info");
 		mini_label4.setFont(new Font("SimSun", Font.PLAIN, 14));
 		mini_label4.setBounds(10, 143, 92, 33);
 		mini_panel1.add(mini_label4);
 
-		mini_textArea = new JTextArea();
-		mini_textArea.setLineWrap(true);
-		mini_textArea.setWrapStyleWord(true);
-		sp = new JScrollPane(mini_textArea);
+		editEventInfo = new JTextArea();
+		editEventInfo.setLineWrap(true);
+		editEventInfo.setWrapStyleWord(true);
+		sp = new JScrollPane(editEventInfo);
 		sp.setBounds(89, 137, 200, 100);
 		mini_panel1.add(sp);
 
@@ -380,12 +388,12 @@ public class MemberScreen implements ActionListener{
 		sp1 = new JScrollPane();
 		splitPane1.setLeftComponent(sp1);
 
-		comm_table3 = new JTable();
-		sp1.setViewportView(comm_table3);
-		comm_table3.setFillsViewportHeight(true);
-		comm_table3.setModel(new DefaultTableModel(new Object[][] {},
+		comm_tableMembers = new JTable();
+		sp1.setViewportView(comm_tableMembers);
+		comm_tableMembers.setFillsViewportHeight(true);
+		comm_tableMembers.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "MEMBER_EMAIL", "MEMBER_FNAME", "MEMBER_LNAME",
-						"MEMBER_PHONE" }));
+						"MEMBER_PHONE" , "COMMITTEE"}));
 
 		mini_panel3 = new JPanel();
 		mini_panel3.setLayout(null);
@@ -575,10 +583,25 @@ public class MemberScreen implements ActionListener{
 			String clubName = (String)comboBox.getSelectedItem(); 
 			JOptionPane.showMessageDialog(null, clubName);
 		}
+		if(action.equals("Add Event")){
+			addEvent();
+		}
 		
 		
 	}
 	
+	private void addEvent() {
+		
+		String location = editLocation.getText();
+		String date = editDate.getText();
+		String eventType = editType.getText();
+		String info = editEventInfo.getText();
+		ClubEvent e = new ClubEvent(eventType, location, date, info);
+		selectedClub.addEvent(e);
+		displayEventsInCommitteeTab();
+		displayClubEvents(selectedClub);
+	}
+
 	private void displayClubs()
 	{
 		ArrayList<Object []> registered, unregistered;
@@ -632,8 +655,8 @@ public class MemberScreen implements ActionListener{
 //	}
 	
 	private void displayClubEvents(Club club){
+		selectedClub = club;
 		ArrayList<Object[]> list = new ArrayList<Object[]>();
-		ArrayList<Object[]> list2 = new ArrayList<Object[]>();
 
 		for(int i = 0; i < club.getNoOfEvents(); i++){
 			
@@ -644,7 +667,14 @@ public class MemberScreen implements ActionListener{
 					club.getEvent(i).getInfo()
 			});		
 		}
-		Iterator<MemberAccount> iter = club.getCommitteeMails().iterator();
+		m_tableEvents.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+				new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
+		displayCommitteeMembers(club);
+
+	}
+	private void displayCommitteeMembers(Club club) {
+		ArrayList<Object[]> list2 = new ArrayList<Object[]>();
+		Iterator<MemberAccount> iter = club.getCommitteeMembers().iterator();
 		while(iter.hasNext())
 		{
 			MemberAccount committee = iter.next();
@@ -654,11 +684,48 @@ public class MemberScreen implements ActionListener{
 					committee.getEmail()
 			});
 		}
-		m_table2.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
-				new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
 		m_tableCommittee.setModel(new DefaultTableModel(list2.toArray(new Object[][] {}), 
 				new String[] {"FirstName", "LastName", "E-mail"}));
+	}
 
+	private void fillCommitteeTab() 
+	{
+		displayEventsInCommitteeTab();
+		displayMembers();
+	}
+	private void displayEventsInCommitteeTab() {
+		ArrayList<Object[]> list = new ArrayList<Object[]>();
+		for(int i = 0; i < selectedClub.getNoOfEvents(); i++){
+			
+			list.add(new Object[] {
+					selectedClub.getEvent(i).getEventType(),
+					selectedClub.getEvent(i).getLocation(),
+					selectedClub.getEvent(i).getDate(),
+					selectedClub.getEvent(i).getInfo()
+			});		
+		}
+		comm_tableEvent.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
+				new String[] {"EVENT_TYPE", "EVENT_LOCATION", "TIME & DATE", "EVENT_INFO"}));
+	}
+
+	private void displayMembers() {
+		ArrayList<Object[]> list2 = new ArrayList<Object[]>();
+		Iterator<MemberAccount> iter = selectedClub.getAllMembers().iterator();
+		while(iter.hasNext())
+		{
+			MemberAccount member = iter.next();
+			list2.add(new Object[] {
+					member.getEmail(),
+					member.getFName(),
+					member.getLName(),
+					member.getPNo(),
+					selectedClub.getIsCommittee(member)
+			});
+		}		
+		comm_tableMembers.setModel(new DefaultTableModel(list2.toArray(new Object[][] {}), 
+				new String[] { "MEMBER_EMAIL", "MEMBER_FNAME", "MEMBER_LNAME",
+			"MEMBER_PHONE" , "COMMITTEE"}));
+		
 	}
 
 	private void initalizeCommitteeCheckerDialog(){

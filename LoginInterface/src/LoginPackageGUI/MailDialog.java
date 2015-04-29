@@ -81,6 +81,6 @@ public class MailDialog extends JDialog {
 							"my name is " + ma.getFName() + " and I would like to have some information" +
 				 			" about your club, please email me at " + ma.getEmail() + "\r\n" +
 							"Regards,\r\n" + ma.getFName());
-		mailService.setRecipients(club.getCommitteeMails());
+		mailService.addMemberAccounts(club.getCommitteeMembers());
 	}
 }

@@ -16,7 +16,7 @@ public class Mailing {
 	{
 		recipients.add(recipient);
 	}	
-	public void setRecipients(ArrayList<MemberAccount> arrayList) {
+	public void addMemberAccounts(ArrayList<MemberAccount> arrayList) {
 		Iterator<MemberAccount> iter = arrayList.iterator();
 		while(iter.hasNext())
 		{

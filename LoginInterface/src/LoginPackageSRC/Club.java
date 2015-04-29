@@ -80,21 +80,30 @@ public class Club {
 		}
 		return false;
 	}
-	
-	public ArrayList<MemberAccount> getCommitteeMails ()
+	public ArrayList<MemberAccount> getAllMembers() {
+		ArrayList<MemberAccount> memberList = new ArrayList<MemberAccount>();
+		Iterator<ClubMembership> iter = registeredMembers.iterator();
+		while(iter.hasNext())
+		{
+			ClubMembership cM = iter.next();
+			memberList.add(cM.getMemberAccount());
+		}
+		return memberList;
+	}	
+	public ArrayList<MemberAccount> getCommitteeMembers ()
 	{
-		ArrayList<MemberAccount> mailList = new ArrayList<MemberAccount>();
+		ArrayList<MemberAccount> memberList = new ArrayList<MemberAccount>();
 		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
 			ClubMembership cM = iter.next();
 			if(cM.isCommittee())
 			{
-				mailList.add(cM.getMemberAccount());
+				memberList.add(cM.getMemberAccount());
 			}
 
 		}
-		return mailList;
+		return memberList;
 	}
 	
 	public MemberAccount getMember(int index){
@@ -153,6 +162,8 @@ public class Club {
 		ClubCache cc = new ClubCache(this.getClubID(), this.getClubName(), this.getClubDescription(), this.getClubType(), false);
 		return cc;
 	}
+
+
 
 
 

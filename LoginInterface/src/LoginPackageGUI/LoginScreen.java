@@ -52,7 +52,7 @@ public class LoginScreen implements ActionListener{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
 		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
 		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive");
-		Club club3 = new Club(34567, "V", "V", "Recreational/Competitive");
+		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational");
 		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
@@ -63,12 +63,24 @@ public class LoginScreen implements ActionListener{
 		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567");
 		memberList.add(mA2);		
 		mA2.addClub(club);
+		MemberAccount mA3 = new MemberAccount("R1", "1", "Member", "a@mycit.ie", "A", "F", "01234567");
+		memberList.add(mA3);		
+		mA3.addClub(club);
+		MemberAccount mA4 = new MemberAccount("R2", "2", "Member", "b@mycit.ie", "B", "F", "02345678");
+		memberList.add(mA4);		
+		mA4.addClub(club);
+		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789");
+		memberList.add(mA5);		
+		mA5.addClub(club);
 		club.addCommittee(mA2);
+		club.addCommittee(mA5);
 		
 		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
 		club.addEvent(e);		
-		ClubEvent e2 = new ClubEvent("olleh", "e", "t", "g");
-		club2.addEvent(e2);
+		ClubEvent e2 = new ClubEvent("hell", "over here", "tomorrow", "good evening");
+		club.addEvent(e2);		
+		ClubEvent e3 = new ClubEvent("olleh", "e", "t", "g");
+		club2.addEvent(e3);
 		
 	}
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
