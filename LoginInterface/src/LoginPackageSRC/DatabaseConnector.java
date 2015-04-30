@@ -19,7 +19,7 @@ public class DatabaseConnector {
 	{
 		try { 
 			Class.forName("com.mysql.jdbc.Driver"); 
-			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/Melvin", "root", ""); 
+			con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/software_project", "root", ""); 
 			st = (Statement) con.createStatement();
 		} 
 		catch(Exception ex) 

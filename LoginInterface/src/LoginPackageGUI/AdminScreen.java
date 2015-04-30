@@ -82,11 +82,12 @@ public class AdminScreen implements ActionListener{
 			}
 		};
 		panel1.setLayout(null);
+		panel1.setBounds(399, 11, 519, 44);
 		wP.add(panel1);
 
 		label1 = new JLabel(aA.getFName() + " " + aA.getLName() + "'s " + aA.getAccType() + " Page");
 		label1.setFont(new Font("SimSun", Font.BOLD, 22));
-		label1.setBounds(86,0,498,45);
+		label1.setBounds(0,0,498,45);
 		panel1.add(label1);
 
 	
@@ -336,7 +337,7 @@ public class AdminScreen implements ActionListener{
 		}
 		
 		if(action.equals("Assign Role")){
-			
+			initializeAssignRole();
 		}
 		
 		if(action.equals("Update")){
@@ -352,6 +353,11 @@ public class AdminScreen implements ActionListener{
 		}
 	}
 	
+	private void initializeAssignRole() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private boolean displayMemberSearch(String memberName){
 		boolean found = false;
 		

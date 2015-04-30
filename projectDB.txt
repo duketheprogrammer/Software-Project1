@@ -1,0 +1,51 @@
+CREATE DATABASE software_project;	
+	
+	CREATE TABLE club_table
+	(
+	clubID varchar(15) NOT NULL,
+	clubName varchar(30),
+	clubDescription varchar(255),
+	clubType varchar(50),
+	PRIMARY KEY (clubID)
+	);
+
+	CREATE TABLE member_table
+	(
+	memberID varchar(15) NOT NULL,
+	memberName varchar(50),
+	memberPW varchar(50),
+	memeberEmail varchar(50),
+	memberPhone int,
+	PRIMARY KEY (memberID)
+	);
+
+	CREATE TABLE committeMem_table
+	(
+	memberID varchar(15) NOT NULL,
+	memberAddress varchar(100),
+	memberDOB date,
+	memberCourse varchar(30),
+	memberCourseYear varchar(15),
+	FOREIGN KEY (memberID) REFERENCES member_table(memberID)
+	);
+	
+	CREATE TABLE equipment_table
+	(
+	clubID varchar(15) NOT NULL,
+	equipmentID varchar(15) NOT NULL,
+	equipmentType varchar(20),
+	equipmentStock int,
+	equipmentRequired int,
+	PRIMARY KEY (equipmentID),
+	FOREIGN KEY (clubID) REFERENCES club_table (clubID)
+	);
+	
+	CREATE TABLE event_table
+	(
+	eventType varchar(50),
+	eventLocation varchar(50),
+	eventDateTime datetime,
+	eventInfo varchar(100)
+	);
+
+	
