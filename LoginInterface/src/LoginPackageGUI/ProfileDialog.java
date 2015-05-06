@@ -87,6 +87,8 @@ public class ProfileDialog extends RegisterDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if(action.equals("Update")){
+		
+			String courseYear, courseName, datOfBirth, adress;
 			
 		}
 		else
