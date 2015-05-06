@@ -182,12 +182,12 @@ public class MemberScreen implements ActionListener{
 
 		m_button4 = new JButton("Contact Club");
 		m_button4.addActionListener(this);
-		m_button4.setBounds(202, 350, 162, 32);
+		m_button4.setBounds(202, 338, 162, 32);
 		panel1.add(m_button4);
 
 		label3 = new JLabel("Events for Club");
 		label3.setFont(new Font("SimSun", Font.PLAIN, 14));
-		label3.setBounds(446, 367, 215, 32);
+		label3.setBounds(246, 367, 215, 32);
 		panel1.add(label3);
 
 		m_tableEvents = new JTable();
@@ -236,7 +236,7 @@ public class MemberScreen implements ActionListener{
 
 		m_button2 = new JButton("Register For Club");
 		m_button2.addActionListener(this);
-		m_button2.setBounds(1152, 338, 146, 32);
+		m_button2.setBounds(710, 338, 146, 32);
 		panel1.add(m_button2);
 
 		panel2 = new JPanel() {

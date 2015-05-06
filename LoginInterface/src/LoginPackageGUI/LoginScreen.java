@@ -52,6 +52,10 @@ public class LoginScreen implements ActionListener{
 	
 	private void getDataBaseData() {
 		DBCon = DatabaseConnector.getInstance();
+		if (DBCon == null)
+		{
+			return;
+		}
 		try {
 			memberList = DBCon.getMemberAccounts();
 	//		clubList = DBCon.getClubs();
