@@ -11,17 +11,19 @@ CREATE DATABASE software_project;
 
 	CREATE TABLE member_table
 	(
-	memberID varchar(15) NOT NULL,
+	memberID integer(15) NOT NULL AUTO_INCREMENT,
+	memberLogin varchar(50) UNIQUE,
 	memberName varchar(50),
 	memberPW varchar(50),
-	memeberEmail varchar(50),
+	memberEmail varchar(50),
+	loginLevel varchar(50),
 	memberPhone int,
 	PRIMARY KEY (memberID)
 	);
 
 	CREATE TABLE committeMem_table
 	(
-	memberID varchar(15) NOT NULL,
+	memberID integer(15) NOT NULL,
 	memberAddress varchar(100),
 	memberDOB date,
 	memberCourse varchar(30),
