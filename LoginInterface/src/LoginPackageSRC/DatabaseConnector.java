@@ -94,7 +94,21 @@ public class DatabaseConnector {
 		}
 		return AccountList;	
 	} 
-	
+
+	public ArrayList<Club> getClubs() throws SQLException {
+		ResultSet rs = getData("SELECT * FROM `club_table`")	;
+		ArrayList<Club> clubList = new ArrayList<Club>();
+		while(rs.next())
+		{
+			int clubID = rs.getInt("clubID");
+			String clubName = rs.getString("clubName");
+			String clubDescription = rs.getString("clubDescription");
+			String clubType = rs.getString("clubType");
+			Club club = new Club(clubID, clubName, clubDescription, clubType, false);
+			clubList.add(club);
+		}
+		return clubList;	
+	}
 	public void insertMember(MemberAccount acc)
 	{
 		updateData(String.format("INSERT INTO `software_project`.`member_table` " +
@@ -103,4 +117,21 @@ public class DatabaseConnector {
 				acc.getUserName(),acc.getFName(),acc.getLName(),acc.getPassWord(),
 				acc.getEmail(), acc.getPNo()));
 	}
+
+	public void insertClub(Club club) {
+		updateData(String.format("INSERT INTO `software_project`.`club_table` " +
+				"(`clubID`, `clubName`, `clubDescription`, `clubType`) " +
+				"VALUES ('%s','%s','%s','%s');",
+				club.getClubID(),club.getClubName(),club.getClubDescription(),club.getClubType()));
+		
+	}
+
+	public void insertClubEvent(ClubEvent event) {
+		updateData(String.format("INSERT INTO `software_project`.`event_table` " +
+				"(`clubID`, `eventType`, `eventLocation`, `eventDateTime`, `eventInfo`) " +
+				"VALUES ('%s','%s','%s','%s','%s');",
+				event.getClub().getClubID(),event.getEventType(),event.getLocation(),event.getDate(),event.getInfo()));
+		
+	}
+
 }

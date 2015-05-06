@@ -287,7 +287,7 @@ public class AdminScreen implements ActionListener{
 			description = split_box3.getText();
 			clubType = (String)combo.getSelectedItem();
 			
-			Club c = new Club(iD, name, description, clubType);
+			Club c = new Club(iD, name, description, clubType,true);
 			clubList.add(c);
 			JOptionPane.showMessageDialog(null, "The " + name + " club has been added");
 			split_box1.setText("");

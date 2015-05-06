@@ -2,7 +2,7 @@ CREATE DATABASE software_project;
 	
 	CREATE TABLE club_table
 	(
-	clubID varchar(15) NOT NULL,
+	clubID integer(15) NOT NULL,
 	clubName varchar(30),
 	clubDescription varchar(255),
 	clubType varchar(50),
@@ -33,7 +33,7 @@ CREATE DATABASE software_project;
 	
 	CREATE TABLE equipment_table
 	(
-	clubID varchar(15) NOT NULL,
+	clubID integer(15) NOT NULL,
 	equipmentID varchar(15) NOT NULL,
 	equipmentType varchar(20),
 	equipmentStock int,
@@ -44,10 +44,19 @@ CREATE DATABASE software_project;
 	
 	CREATE TABLE event_table
 	(
+	clubID integer(15) NOT NULL,
 	eventType varchar(50),
 	eventLocation varchar(50),
 	eventDateTime datetime,
-	eventInfo varchar(100)
+	eventInfo varchar(100),
+	FOREIGN KEY (clubID) REFERENCES club_table(clubID) 
 	);
 
-	
+	CREATE TABLE membership_table
+	(
+	clubID integer(15) NOT NULL,
+	memberID integer(15) NOT NULL,
+	committeeLevel integer(15) NOT NULL,
+	FOREIGN KEY (memberID) REFERENCES member_table(memberID),
+	FOREIGN KEY (clubID) REFERENCES club_table(clubID) 
+	);

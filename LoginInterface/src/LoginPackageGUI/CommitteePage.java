@@ -358,8 +358,8 @@ public class CommitteePage extends JFrame implements ActionListener {
 			location = locationField.getText();
 			info = infoField.getText();
 
-			ClubEvent eV = new ClubEvent(date, eventType, location, info);
-			eventList.add(eV);		
+//			ClubEvent eV = new ClubEvent(date, eventType, location, info,true);
+//			eventList.add(eV);		
 			displayEventList();
 			c = false;
 			dateAndTimeField.setText("");

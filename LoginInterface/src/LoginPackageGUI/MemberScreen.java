@@ -601,8 +601,7 @@ public class MemberScreen implements ActionListener{
 		String date = editDate.getText();
 		String eventType = editType.getText();
 		String info = editEventInfo.getText();
-		ClubEvent e = new ClubEvent(eventType, location, date, info);
-		selectedClub.addEvent(e);
+		new ClubEvent(eventType, location, date, info, selectedClub, true);
 		displayEventsInCommitteeTab();
 		displayClubEvents(selectedClub);
 	}

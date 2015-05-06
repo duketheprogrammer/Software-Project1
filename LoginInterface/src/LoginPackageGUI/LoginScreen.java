@@ -54,6 +54,7 @@ public class LoginScreen implements ActionListener{
 		DBCon = DatabaseConnector.getInstance();
 		try {
 			memberList = DBCon.getMemberAccounts();
+	//		clubList = DBCon.getClubs();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,9 +64,9 @@ public class LoginScreen implements ActionListener{
 	private void addTestData()
 	{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
-		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive");
-		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive");
-		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational");
+		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive", false);
+		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive", false);
+		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational", false);
 		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
@@ -90,12 +91,9 @@ public class LoginScreen implements ActionListener{
 		club.addCommittee(mA5);
 		club2.addCommittee(mA5);
 		
-		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
-		club.addEvent(e);		
-		ClubEvent e2 = new ClubEvent("hell", "over here", "tomorrow", "good evening");
-		club.addEvent(e2);		
-		ClubEvent e3 = new ClubEvent("olleh", "e", "t", "g");
-		club2.addEvent(e3);
+		new ClubEvent("hello", "over there", "today", "good morning",club, false);
+		new ClubEvent("hell", "over here", "tomorrow", "good evening",club, false);
+		new ClubEvent("olleh", "e", "t", "g",club2, false);
 		
 	}
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){

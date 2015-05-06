@@ -2,6 +2,8 @@ package LoginPackageSRC;
 
 import java.util.*;
 
+import LoginPackageGUI.LoginScreen;
+
 public class Club {
 	
 	private int clubID;
@@ -9,7 +11,7 @@ public class Club {
 	private ArrayList<ClubEvent> eventList;
 	private ArrayList<ClubMembership> registeredMembers;
 	
-	public Club(int clubID, String clubName, String clubDescription, String clubType) {
+	public Club(int clubID, String clubName, String clubDescription, String clubType, boolean insert) {
 		// TODO Auto-generated constructor stub
 		setClubID(clubID);
 		setClubName(clubName);
@@ -17,6 +19,10 @@ public class Club {
 		setClubType(clubType);
 		eventList = new ArrayList<ClubEvent>();
 		registeredMembers = new ArrayList<ClubMembership>();
+		if (insert)
+		{
+			LoginScreen.DBCon.insertClub(this);
+		}
 	}
 
 	public void removeMember(ClubMembership clubMembership) {
