@@ -60,8 +60,8 @@ public class MailDialog extends JDialog {
 		
 		buttonSend = new JButton("send Mail");
 		buttonSend.setBounds(24, 538, 200, 22);
-		buttonSend.addActionListener(new ActionListener() {
-			
+		buttonSend.addActionListener(new ActionListener() 
+		{	
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
