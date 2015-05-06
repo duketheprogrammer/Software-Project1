@@ -29,7 +29,7 @@ public class MemberScreen implements ActionListener{
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
 	private ArrayList<Club> registeredList, unregisteredList;
-	private Club selectedClub;
+	private Club selectedClub, committeeClub;
 	private MemberAccount mA;
 	private JTable m_tableRegisteredClubs, m_tableEvents, m_tableAvailableClubs, comm_tableEvent, comm_table2, comm_tableMembers;
 	private JScrollPane sp, sp1;
@@ -95,11 +95,15 @@ public class MemberScreen implements ActionListener{
 					}
 					else
 					{
+						boolean found = false;
 						for(int i = 0; i < mA.getNoOfClubs(); i++){
 							if(clubName.equals(mA.getClub(i).getClubName())){
-								if(mA.getClub(i).getIsCommittee(mA) == true){
+								Club c = mA.getClub(i);
+								if(c.getIsCommittee(mA) == true){
 									lastPane = selectedPane;
+									committeeClub = c;
 									fillCommitteeTab();
+									found = true;
 								}
 								else{
 									JOptionPane.showMessageDialog(null, "You are not a committee member for this club");
@@ -107,10 +111,11 @@ public class MemberScreen implements ActionListener{
 								}
 								
 							}
-							else{
-								JOptionPane.showMessageDialog(null, "You might not be registered for "+ clubName + "\nor the club does not exist");
-								mainTabbedPane.setSelectedIndex(lastPane);
-							}
+						}
+						if (!found)
+						{
+							JOptionPane.showMessageDialog(null, "You might not be registered for "+ clubName + "\nor the club does not exist");
+							mainTabbedPane.setSelectedIndex(lastPane);
 						}
 					}
 				}
@@ -695,13 +700,13 @@ public class MemberScreen implements ActionListener{
 	}
 	private void displayEventsInCommitteeTab() {
 		ArrayList<Object[]> list = new ArrayList<Object[]>();
-		for(int i = 0; i < selectedClub.getNoOfEvents(); i++){
+		for(int i = 0; i < committeeClub.getNoOfEvents(); i++){
 			
 			list.add(new Object[] {
-					selectedClub.getEvent(i).getEventType(),
-					selectedClub.getEvent(i).getLocation(),
-					selectedClub.getEvent(i).getDate(),
-					selectedClub.getEvent(i).getInfo()
+					committeeClub.getEvent(i).getEventType(),
+					committeeClub.getEvent(i).getLocation(),
+					committeeClub.getEvent(i).getDate(),
+					committeeClub.getEvent(i).getInfo()
 			});		
 		}
 		comm_tableEvent.setModel(new DefaultTableModel(list.toArray(new Object[][] {}), 
@@ -710,7 +715,7 @@ public class MemberScreen implements ActionListener{
 
 	private void displayMembers() {
 		ArrayList<Object[]> list2 = new ArrayList<Object[]>();
-		Iterator<MemberAccount> iter = selectedClub.getAllMembers().iterator();
+		Iterator<MemberAccount> iter = committeeClub.getAllMembers().iterator();
 		while(iter.hasNext())
 		{
 			MemberAccount member = iter.next();
@@ -719,7 +724,7 @@ public class MemberScreen implements ActionListener{
 					member.getFName(),
 					member.getLName(),
 					member.getPNo(),
-					selectedClub.getIsCommittee(member)
+					committeeClub.getIsCommittee(member)
 			});
 		}		
 		comm_tableMembers.setModel(new DefaultTableModel(list2.toArray(new Object[][] {}), 

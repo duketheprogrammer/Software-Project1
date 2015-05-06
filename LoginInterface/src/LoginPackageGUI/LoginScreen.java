@@ -72,8 +72,10 @@ public class LoginScreen implements ActionListener{
 		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789");
 		memberList.add(mA5);		
 		mA5.addClub(club);
+		mA5.addClub(club2);
 		club.addCommittee(mA2);
 		club.addCommittee(mA5);
+		club2.addCommittee(mA5);
 		
 		ClubEvent e = new ClubEvent("hello", "over there", "today", "good morning");
 		club.addEvent(e);		
