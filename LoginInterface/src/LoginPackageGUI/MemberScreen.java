@@ -21,7 +21,7 @@ public class MemberScreen implements ActionListener{
 	private JTextArea editEventInfo;
 	private JTextArea box2;
 	private JPasswordField passBox1, passBox2, passBox3;
-	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4;
+	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4, updateInfoBtn;
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
@@ -238,6 +238,12 @@ public class MemberScreen implements ActionListener{
 		m_button2.addActionListener(this);
 		m_button2.setBounds(710, 338, 146, 32);
 		panel1.add(m_button2);
+		
+		updateInfoBtn = new JButton("Update Info");
+		updateInfoBtn.addActionListener(this);
+		updateInfoBtn.setBounds(874, 338, 146, 32);
+		panel1.add(updateInfoBtn);
+		
 
 		panel2 = new JPanel() {
 			@Override
@@ -592,6 +598,10 @@ public class MemberScreen implements ActionListener{
 			addEvent();
 		}
 		
+		if(action.equals("Update Info")){
+			d = new ProfileDialog(adminList, clubList, memberList);
+		}
+		
 		
 	}
 	
@@ -769,6 +779,8 @@ public class MemberScreen implements ActionListener{
 		d.getContentPane().add(comm_D_button4);
 
 	}
+	
+	
 }
 
 	

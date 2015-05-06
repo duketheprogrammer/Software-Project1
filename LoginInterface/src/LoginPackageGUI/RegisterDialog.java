@@ -20,16 +20,16 @@ import LoginPackageSRC.Club;
 import LoginPackageSRC.MemberAccount;
 
 public class RegisterDialog extends JDialog implements ActionListener {
-	private JLabel label6;
+	protected JLabel label6;
 	private JLabel label7;
 	protected JTextField box2, box3, box4, box5, box6;
 	protected JPasswordField passBox2, passBox3;
 	protected JButton button3;
 	protected JButton button4;
 	protected ArrayList<MemberAccount> memberList;
-	private JLabel label10;
+	protected JLabel label10;
 	protected JComboBox comboBox;
-	private JLabel label8;
+	private JLabel label8, label62, label63;
 	private JLabel label9;
 	protected ArrayList<Club> clubList;
 
@@ -48,9 +48,9 @@ public class RegisterDialog extends JDialog implements ActionListener {
 		label6.setBounds(10,11,144,38);
 		getContentPane().add(label6);
 
-		label6 = new JLabel("Username:");
-		label6.setBounds(32,60,106,29);
-		getContentPane().add(label6);
+		label62 = new JLabel("Username:");
+		label62.setBounds(32,60,106,29);
+		getContentPane().add(label62);
 
 		box2 = new JTextField();
 		box2.setBounds(148,60,108,29);
@@ -72,9 +72,9 @@ public class RegisterDialog extends JDialog implements ActionListener {
 		passBox3.setBounds(148,140,108,29);
 		getContentPane().add(passBox3);
 
-		label6 = new JLabel("Email:");
-		label6.setBounds(32,180,106,29);
-		getContentPane().add(label6);
+		label63 = new JLabel("Email:");
+		label63.setBounds(32,180,106,29);
+		getContentPane().add(label63);
 
 		box3 = new JTextField();
 		box3.setBounds(148,180,108,29);
