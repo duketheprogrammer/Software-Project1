@@ -5,17 +5,19 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class DatabaseConnector { 
 
 	//Define attributes 
+	private static DatabaseConnector instance ;
 	private Connection con; 
 	private Statement st; 
 	private ResultSet rs; 
 
 	//Constructor for db connection 
-	public DatabaseConnector() 
+	private DatabaseConnector() 
 	{
 		try { 
 			Class.forName("com.mysql.jdbc.Driver"); 
@@ -27,6 +29,18 @@ public class DatabaseConnector {
 			System.out.println("Error: "+ ex); 
 		} 
 	} 
+
+	public static DatabaseConnector getInstance() {
+		if (instance == null) {
+			synchronized (DatabaseConnector.class) {
+				if (instance == null) {
+					instance = new DatabaseConnector();
+				}
+			}
+		}
+		return instance;
+	}
+
 	//Function to get data from database 
 	public ResultSet getData(String query) 
 	{ 	
@@ -61,5 +75,32 @@ public class DatabaseConnector {
 		{ 
 			e.printStackTrace();
 		} 
+	}
+
+	public ArrayList<MemberAccount> getMemberAccounts() throws SQLException {
+		ResultSet rs = getData("SELECT * FROM `member_table`")	;
+		ArrayList<MemberAccount> AccountList = new ArrayList<MemberAccount>();
+		while(rs.next())
+		{
+			String username = rs.getString("memberLogin");
+			String passWd = rs.getString("memberPW");
+			String accType = rs.getString("loginLevel");
+			String email = rs.getString("memberEmail");
+			String fName = rs.getString("memberName");
+			String lName = rs.getString("memberName");
+			String pNo = "" + rs.getInt("memberPhone");
+			MemberAccount mA = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,false);
+			AccountList.add(mA);
+		}
+		return AccountList;	
 	} 
+	
+	public void insertMember(MemberAccount acc)
+	{
+		updateData(String.format("INSERT INTO `software_project`.`member_table` " +
+				"(`memberLogin`, `memberName`, `memberPW`, `memberEmail`, `memberPhone`, `loginLevel`) " +
+				"VALUES ('%s', '%s %s', '%s', '%s', '%s', 'Member');",
+				acc.getUserName(),acc.getFName(),acc.getLName(),acc.getPassWord(),
+				acc.getEmail(), acc.getPNo()));
+	}
 }

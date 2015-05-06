@@ -100,7 +100,7 @@ public class SavingArrayListToFile {
 				String lName = pReader.nextLine();
 				String pNo = pReader.nextLine();
 			
-				MemberAccount acc = new MemberAccount(username,passWd,accType, email, fName, lName, pNo);
+				MemberAccount acc = new MemberAccount(username,passWd,accType, email, fName, lName, pNo,false);
 				accList.add(acc);
 			}
 		} catch (FileNotFoundException e1) {

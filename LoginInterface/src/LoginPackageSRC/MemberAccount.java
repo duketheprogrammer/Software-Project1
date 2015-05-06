@@ -2,6 +2,8 @@ package LoginPackageSRC;
 
 import java.util.*;
 
+import LoginPackageGUI.LoginScreen;
+
 public class MemberAccount extends Account{
 
 	private String email, fName, lName, pNo;
@@ -9,7 +11,7 @@ public class MemberAccount extends Account{
 //	private ArrayList<Club> registeredClubs;
 	private ArrayList<ClubMembership> registeredClubs;
 
-	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo) {
+	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo, boolean insert) {
 		// TODO Auto-generated constructor stub
 		super(username, passWd, accType);
 		setEmail(email);
@@ -18,6 +20,10 @@ public class MemberAccount extends Account{
 		setPNo(pNo);
 		eventList = new ArrayList<ClubEvent>();
 		registeredClubs = new ArrayList<ClubMembership>();
+		if (insert)
+		{
+			LoginScreen.DBCon.insertMember(this);
+		}
 	}
 
 	public void addClub(Club club){

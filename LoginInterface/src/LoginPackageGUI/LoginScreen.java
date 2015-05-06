@@ -5,6 +5,7 @@ import LoginPackageSRC.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.*;
 
 public class LoginScreen implements ActionListener{
@@ -22,6 +23,7 @@ public class LoginScreen implements ActionListener{
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2;
 	private Menu mOpt1;
+	public static DatabaseConnector DBCon;
 	private ArrayList<AdminAccount> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
@@ -44,9 +46,20 @@ public class LoginScreen implements ActionListener{
 		adminList = new ArrayList<AdminAccount>();
 		memberList = new ArrayList<MemberAccount>();
 		clubList = new ArrayList<Club>();
+		getDataBaseData();
 		addTestData();
 	}
 	
+	private void getDataBaseData() {
+		DBCon = DatabaseConnector.getInstance();
+		try {
+			memberList = DBCon.getMemberAccounts();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
 	private void addTestData()
 	{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
@@ -57,19 +70,19 @@ public class LoginScreen implements ActionListener{
 		clubList.add(club);
 		clubList.add(club2);
 		clubList.add(club3);
-		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567");
+		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567",false);
 		memberList.add(mA);		
 		mA.addClub(club);
-		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567");
+		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567",false);
 		memberList.add(mA2);		
 		mA2.addClub(club);
-		MemberAccount mA3 = new MemberAccount("R1", "1", "Member", "a@mycit.ie", "A", "F", "01234567");
+		MemberAccount mA3 = new MemberAccount("R1", "1", "Member", "a@mycit.ie", "A", "F", "01234567",false);
 		memberList.add(mA3);		
 		mA3.addClub(club);
-		MemberAccount mA4 = new MemberAccount("R2", "2", "Member", "b@mycit.ie", "B", "F", "02345678");
+		MemberAccount mA4 = new MemberAccount("R2", "2", "Member", "b@mycit.ie", "B", "F", "02345678",false);
 		memberList.add(mA4);		
 		mA4.addClub(club);
-		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789");
+		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789",false);
 		memberList.add(mA5);		
 		mA5.addClub(club);
 		mA5.addClub(club2);
@@ -352,8 +365,8 @@ public class LoginScreen implements ActionListener{
 						System.out.println(clubName);
 						for(Club c : clubList){
 							if(clubName.equals(c.getClubName())){
-								acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo);
-								((MemberAccount) acc).addClub(c);//c.giveClubCacheToMembers());
+								acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,true);
+								((MemberAccount) acc).addClub(c);
 								c.addMember((MemberAccount) acc);
 								memberList.add((MemberAccount) acc);
 								JOptionPane.showMessageDialog(null, "Account Created");
