@@ -366,7 +366,7 @@ public class LoginScreen implements ActionListener{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initializeDialog() {
 		// TODO Auto-generated method stub
-		d = new ProfileDialog(adminList, clubList, memberList);
+		d = new RegisterDialog(adminList, clubList, memberList);
 
 	}
 }
