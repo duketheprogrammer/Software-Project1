@@ -10,6 +10,7 @@ public class MemberAccount extends Account{
 	private ArrayList<ClubEvent> eventList;
 //	private ArrayList<Club> registeredClubs;
 	private ArrayList<ClubMembership> registeredClubs;
+	private CommitteeData committeeData;
 
 	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo, boolean insert) {
 		// TODO Auto-generated constructor stub
@@ -18,6 +19,7 @@ public class MemberAccount extends Account{
 		setFName(fName);
 		setLName(lName);
 		setPNo(pNo);
+		committeeData = null;
 		eventList = new ArrayList<ClubEvent>();
 		registeredClubs = new ArrayList<ClubMembership>();
 		if (insert)
@@ -119,6 +121,14 @@ public class MemberAccount extends Account{
 
 	public String getPNo(){
 		return pNo;
+	}
+
+	public CommitteeData getCommitteeData() {
+		return committeeData;
+	}
+
+	public void setCommitteeData(CommitteeData committeeData) {
+		this.committeeData = committeeData;
 	}
 
 

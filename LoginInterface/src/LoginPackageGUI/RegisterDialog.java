@@ -20,18 +20,23 @@ import LoginPackageSRC.Club;
 import LoginPackageSRC.MemberAccount;
 
 public class RegisterDialog extends JDialog implements ActionListener {
-	protected JLabel label6;
-	private JLabel label7;
-	protected JTextField box2, box3, box4, box5, box6;
+	protected JLabel labelCreate;
+	protected JLabel labelPassword;
+	protected JTextField boxUserName, boxEmail, boxFirstName, boxLastName, boxPhone;
 	protected JPasswordField passBox2, passBox3;
 	protected JButton button3;
 	protected JButton button4;
 	protected ArrayList<MemberAccount> memberList;
-	protected JLabel label10;
+	protected JLabel labelClub;
 	protected JComboBox comboBox;
-	private JLabel label8, label62, label63;
+	protected JLabel labelPasswordConfirm, label62, labelEmail;
 	private JLabel label9;
 	protected ArrayList<Club> clubList;
+	protected String passWd;
+	protected String cPassWd;
+	protected String username, email, accType, fName, lName, pNo;
+	protected JLabel labelLastName;
+	protected JLabel labelFirstName;
 
 	public RegisterDialog(ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList) {
 		this.memberList=memberList;
@@ -43,66 +48,66 @@ public class RegisterDialog extends JDialog implements ActionListener {
 		getContentPane().setLayout(null);
 		setVisible(true);
 
-		label6 = new JLabel("Create Account");
-		label6.setFont(new Font("SimSun", Font.PLAIN, 16));
-		label6.setBounds(10,11,144,38);
-		getContentPane().add(label6);
+		labelCreate = new JLabel("Create Account");
+		labelCreate.setFont(new Font("SimSun", Font.PLAIN, 16));
+		labelCreate.setBounds(10,11,144,38);
+		getContentPane().add(labelCreate);
 
 		label62 = new JLabel("Username:");
 		label62.setBounds(32,60,106,29);
 		getContentPane().add(label62);
 
-		box2 = new JTextField();
-		box2.setBounds(148,60,108,29);
-		getContentPane().add(box2);
+		boxUserName = new JTextField();
+		boxUserName.setBounds(148,60,108,29);
+		getContentPane().add(boxUserName);
 
-		label7 = new JLabel("Password:");
-		label7.setBounds(32,100,106,29);
-		getContentPane().add(label7);
+		labelPassword = new JLabel("Password:");
+		labelPassword.setBounds(32,100,106,29);
+		getContentPane().add(labelPassword);
 
 		passBox2 = new JPasswordField();
 		passBox2.setBounds(148,100,108,29);
 		getContentPane().add(passBox2);
 
-		label8 = new JLabel("Confirm PassWd:");
-		label8.setBounds(32,140,106,29);
-		getContentPane().add(label8);
+		labelPasswordConfirm = new JLabel("Confirm PassWd:");
+		labelPasswordConfirm.setBounds(32,140,106,29);
+		getContentPane().add(labelPasswordConfirm);
 
 		passBox3 = new JPasswordField();
 		passBox3.setBounds(148,140,108,29);
 		getContentPane().add(passBox3);
 
-		label63 = new JLabel("Email:");
-		label63.setBounds(32,180,106,29);
-		getContentPane().add(label63);
+		labelEmail = new JLabel("Email:");
+		labelEmail.setBounds(32,180,106,29);
+		getContentPane().add(labelEmail);
 
-		box3 = new JTextField();
-		box3.setBounds(148,180,108,29);
-		getContentPane().add(box3);
+		boxEmail = new JTextField();
+		boxEmail.setBounds(148,180,108,29);
+		getContentPane().add(boxEmail);
 
-		label7 = new JLabel("First Name:");
-		label7.setBounds(32,220,106,29);
-		getContentPane().add(label7);
+		labelFirstName = new JLabel("First Name:");
+		labelFirstName.setBounds(32,220,106,29);
+		getContentPane().add(labelFirstName);
 
-		box4 = new JTextField();
-		box4.setBounds(148,220,108,29);
-		getContentPane().add(box4);
+		boxFirstName = new JTextField();
+		boxFirstName.setBounds(148,220,108,29);
+		getContentPane().add(boxFirstName);
 
-		label8 = new JLabel("Last Name:");
-		label8.setBounds(32,260,106,29);
-		getContentPane().add(label8);
+		labelLastName = new JLabel("Last Name:");
+		labelLastName.setBounds(32,260,106,29);
+		getContentPane().add(labelLastName);
 
-		box5 = new JTextField();
-		box5.setBounds(148,260,108,29);
-		getContentPane().add(box5);
+		boxLastName = new JTextField();
+		boxLastName.setBounds(148,260,108,29);
+		getContentPane().add(boxLastName);
 
 		label9 = new JLabel("Phone Number:");
 		label9.setBounds(32,300,106,29);
 		getContentPane().add(label9);
 
-		box6 = new JTextField();
-		box6.setBounds(148,300,108,29);
-		getContentPane().add(box6);
+		boxPhone = new JTextField();
+		boxPhone.setBounds(148,300,108,29);
+		getContentPane().add(boxPhone);
 
 		button3 = new JButton("Cancel");
 		button3.addActionListener(this);
@@ -121,9 +126,9 @@ public class RegisterDialog extends JDialog implements ActionListener {
 
 		}
 
-		label10 = new JLabel("Choose Club");
-		label10.setBounds(32,340,106,29);
-		getContentPane().add(label10);
+		labelClub = new JLabel("Choose Club");
+		labelClub.setBounds(32,340,106,29);
+		getContentPane().add(labelClub);
 
 		comboBox = new JComboBox(clubListNames);
 		comboBox.setBounds(148,340,108,29);
@@ -135,45 +140,62 @@ public class RegisterDialog extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
-		if(action.equals("Create")){
-			String username, passWd, cPassWd, email, accType, fName, lName, pNo, clubName;
+		if(action.equals("Create"))
+		{
+			String clubName;
 			Account acc = null;
-			username = box2.getText();
+			username = boxUserName.getText();
 			if(username.equals("") || username == null){
 				JOptionPane.showMessageDialog(null, "Please Enter a Username");
 			}
-			else{
-				passWd = passBox2.getText().toString();
-				cPassWd = passBox3.getText().toString();
-				if(passWd.equals("") || passWd == null){
-					JOptionPane.showMessageDialog(null, "Please Enter a Password");
-				}
-				else{
-					if(passWd.equals(cPassWd)){
-						accType = "Member";
-						email = box3.getText();
-						fName = box4.getText();
-						lName = box5.getText();
-						pNo = box6.getText();
+			else
+			{
+				if(confirmPasswd())
+				{
 
-						clubName = (String)comboBox.getSelectedItem();
-						System.out.println(clubName);
-						for(Club c : clubList){
-							if(clubName.equals(c.getClubName())){
-								acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,true);
-								((MemberAccount) acc).addClub(c);
-								c.addMember((MemberAccount) acc);
-								memberList.add((MemberAccount) acc);
-								JOptionPane.showMessageDialog(null, "Account Created");
-								this.dispose(); 
-							}
+					getDialogData();
+
+					clubName = (String)comboBox.getSelectedItem();
+					System.out.println(clubName);
+					for(Club c : clubList){
+						if(clubName.equals(c.getClubName()))
+						{
+							acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,true);
+							((MemberAccount) acc).addClub(c);
+							c.addMember((MemberAccount) acc);
+							memberList.add((MemberAccount) acc);
+							JOptionPane.showMessageDialog(null, "Account Created");
+							this.dispose(); 
 						}
-
 					}
 				}
 			}
 		}
 		
+	}
+
+	protected void getDialogData() {
+		accType = "Member";
+		email = boxEmail.getText();
+		fName = boxFirstName.getText();
+		lName = boxLastName.getText();
+		pNo = boxPhone.getText();	
+	}
+
+	protected boolean confirmPasswd() {
+		passWd = passBox2.getText().toString();
+		cPassWd = passBox3.getText().toString();
+		if(passWd.equals("") || passWd == null){
+			JOptionPane.showMessageDialog(null, "Please Enter a Password");
+			return false;
+		}
+		else{
+			if(!passWd.equals(cPassWd)){
+				JOptionPane.showMessageDialog(null, "Passwords not matching");
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }

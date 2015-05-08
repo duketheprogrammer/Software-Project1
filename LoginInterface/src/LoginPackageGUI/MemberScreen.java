@@ -599,7 +599,7 @@ public class MemberScreen implements ActionListener{
 		}
 		
 		if(action.equals("Update Info")){
-			d = new ProfileDialog(adminList, clubList, memberList);
+			d = new ProfileDialog(adminList, clubList, memberList, mA);
 		}
 		
 		

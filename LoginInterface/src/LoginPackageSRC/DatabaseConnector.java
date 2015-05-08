@@ -6,6 +6,7 @@ import com.mysql.jdbc.Statement;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class DatabaseConnector { 
@@ -90,7 +91,25 @@ public class DatabaseConnector {
 			String lName = rs.getString("memberName");
 			String pNo = "" + rs.getInt("memberPhone");
 			MemberAccount mA = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,false);
+
 			AccountList.add(mA);
+		}
+		for(int i = 0 ; i<AccountList.size(); i++)
+		{
+			MemberAccount mA= AccountList.get(i);
+			String id = getMemberID(mA);
+			if (isCommittee(id))
+			{
+				ResultSet rs2 = getData(String.format("SELECT * FROM `committemem_table` WHERE `committemem_table`.`memberID` = " +
+						"'%s'",id));
+				rs2.next();
+				String courseYear = rs2.getString("memberCourseYear");
+				String courseName = rs2.getString("memberCourse");
+				String dateOfBirth = rs2.getString("memberDOB");
+				String address = rs2.getString("memberAddress");
+				CommitteeData comDat = new CommitteeData(courseYear, courseName, dateOfBirth, address);
+				mA.setCommitteeData(comDat);
+			}
 		}
 		return AccountList;	
 	} 
@@ -134,4 +153,47 @@ public class DatabaseConnector {
 		
 	}
 
+	public void updateMember(MemberAccount mA) throws SQLException {
+		updateData(String.format("UPDATE `software_project`.`member_table` " +
+				"SET `memberName` = '%s %s', `memberPW` ='%s', `memberEmail` = '%s' " +
+				", `memberPhone` = '%s'" +
+				"WHERE `member_table`.`memberLogin` = '%s';",mA.getFName(),mA.getLName(),
+				mA.getPassWord(),mA.getEmail(), mA.getPNo(), mA.getUserName()));
+		if(mA.getCommitteeData()!= null)
+		{
+			CommitteeData comDat = mA.getCommitteeData();
+			String id = getMemberID(mA);			
+			if (isCommittee(id))
+			{
+				updateData(String.format("UPDATE `software_project`.`committemem_table` " +
+						"SET `memberAddress` = '%s', `memberDOB` ='%s', `memberCourse` = '%s' " +
+						", `memberCourseYear` = '%s'" +
+						"WHERE `committemem_table`.`memberID` = '%s';",
+						comDat.getAddress(),comDat.getDateOfBirth(),comDat.getCourseName(),comDat.getCourseYear(),id));
+			}
+			else
+			{		
+				updateData(String.format("INSERT INTO `software_project`.`committemem_table` " +
+						"(`memberID`, `memberAddress`, `memberDOB`, `memberCourse`, `memberCourseYear`) " +
+						"VALUES ('%s','%s','%s','%s','%s');",
+						id, comDat.getAddress(),comDat.getDateOfBirth(),comDat.getCourseName(),comDat.getCourseYear()));
+				
+			}
+		}
+	}
+
+	private boolean isCommittee(String id) throws SQLException {
+		ResultSet rs = getData(String.format("SELECT * FROM `committemem_table` WHERE `committemem_table`.`memberID` = " +
+				"'%s'",id));
+		if (!rs.next())
+			return false;
+		return true;
+	}
+	private String getMemberID(MemberAccount mA) throws SQLException
+	{
+		ResultSet rs = getData(String.format("SELECT `memberID` FROM `member_table` WHERE `member_table`.`memberLogin` = '%s'",
+				mA.getUserName()))	;
+		rs.next();
+		return rs.getString("memberID");
+	}
 }
