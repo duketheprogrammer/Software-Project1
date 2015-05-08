@@ -2,7 +2,7 @@ CREATE DATABASE software_project;
 	
 	CREATE TABLE club_table
 	(
-	clubID integer(15) NOT NULL,
+	clubID integer(15) NOT NULL AUTO_INCREMENT,
 	clubName varchar(30),
 	clubDescription varchar(255),
 	clubType varchar(50),
@@ -17,7 +17,7 @@ CREATE DATABASE software_project;
 	memberPW varchar(50),
 	memberEmail varchar(50),
 	loginLevel varchar(50),
-	memberPhone int,
+	memberPhone varchar(50),
 	PRIMARY KEY (memberID)
 	);
 
@@ -58,5 +58,6 @@ CREATE DATABASE software_project;
 	memberID integer(15) NOT NULL,
 	committeeLevel integer(15) NOT NULL,
 	FOREIGN KEY (memberID) REFERENCES member_table(memberID),
-	FOREIGN KEY (clubID) REFERENCES club_table(clubID) 
+	FOREIGN KEY (clubID) REFERENCES club_table(clubID),
+	PRIMARY KEY (memberID,clubID) 
 	);

@@ -583,7 +583,7 @@ public class MemberScreen implements ActionListener{
 				return;
 			}
 			Club club = unregisteredList.get(index);
-			mA.addClub(club);
+			mA.addClub(club,true);
 			displayClubs();
 			JOptionPane.showMessageDialog(null, "Successfully registered for " + club.getClubName());
 		}

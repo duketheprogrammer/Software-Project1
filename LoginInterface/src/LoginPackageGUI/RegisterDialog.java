@@ -161,8 +161,7 @@ public class RegisterDialog extends JDialog implements ActionListener {
 						if(clubName.equals(c.getClubName()))
 						{
 							acc = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,true);
-							((MemberAccount) acc).addClub(c);
-							c.addMember((MemberAccount) acc);
+							((MemberAccount) acc).addClub(c,true);
 							memberList.add((MemberAccount) acc);
 							JOptionPane.showMessageDialog(null, "Account Created");
 							this.dispose(); 

@@ -152,7 +152,39 @@ public class DatabaseConnector {
 				event.getClub().getClubID(),event.getEventType(),event.getLocation(),event.getDate(),event.getInfo()));
 		
 	}
-
+	
+	public void insertMemberShip(ClubMembership cm) throws SQLException 
+	{
+		Club club = cm.getClub();
+		MemberAccount mA = cm.getMemberAccount();
+		int isCommittee = club.getIsCommittee(mA)? 1:0;
+		updateData(String.format("INSERT INTO `software_project`.`membership_table` " +
+				"(`memberID`, `clubID`, `committeeLevel`) " +
+				"VALUES ('%s','%s','%d');",
+				getMemberID(mA),club.getClubID(),isCommittee
+				));
+		
+	}
+	public void removeMemberShip(ClubMembership cm) throws SQLException 
+	{
+		Club club = cm.getClub();
+		MemberAccount mA = cm.getMemberAccount();
+		updateData(String.format("DELETE FROM `software_project`.`membership_table` " +
+				"WHERE `membership_table`.`memberID` = '%s' AND `membership_table`.`clubID` = '%s'", 
+				getMemberID(mA),club.getClubID()
+				));
+		
+	}
+	public void updateCommitteeStatus(ClubMembership cm) throws SQLException {
+		Club club = cm.getClub();
+		MemberAccount mA = cm.getMemberAccount();
+		int isCommittee = club.getIsCommittee(mA)? 1:0;
+		updateData(String.format("UPDATE `software_project`.`membership_table` " +
+				"SET `committeeLevel` = %d " +
+				"WHERE (`membership_table`.`memberID` = '%s' AND `membership_table`.`clubID` = '%s');"
+				,isCommittee,getMemberID(mA),club.getClubID()
+				));
+	}
 	public void updateMember(MemberAccount mA) throws SQLException {
 		updateData(String.format("UPDATE `software_project`.`member_table` " +
 				"SET `memberName` = '%s %s', `memberPW` ='%s', `memberEmail` = '%s' " +
@@ -196,4 +228,35 @@ public class DatabaseConnector {
 		rs.next();
 		return rs.getString("memberID");
 	}
+	public void getMemberships(ArrayList<MemberAccount> memberList,ArrayList<Club> clubList) throws SQLException {
+		for(int i = 0 ; i<memberList.size(); i++)
+		{
+			MemberAccount mA= memberList.get(i);
+			String id = getMemberID(mA);
+			String sQuery = String.format("SELECT `clubName` , `committeeLevel` FROM `club_table` " +
+					"INNER JOIN `membership_table` ON `membership_table`.`clubID`=`club_table`.`clubID` " +
+					"WHERE `membership_table`.`memberID` = '%s';",id);
+			System.out.println(sQuery);
+			ResultSet rs = getData(sQuery);
+			while(rs.next())
+			{
+				String clubName = rs.getString("clubName");
+				int committeeLevel = rs.getInt("committeeLevel");
+				for (int j=0 ; j< clubList.size(); j++)
+				{
+					Club club = clubList.get(j);
+					if (club.getClubName().equals(clubName))
+					{
+						mA.addClub(club,false);
+						if(committeeLevel!=0)
+						{
+							club.addCommittee(mA,false);
+						}
+					}
+				}
+			}
+		}		
+	}
+
+
 }

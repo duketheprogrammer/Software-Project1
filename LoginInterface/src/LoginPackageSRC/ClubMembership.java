@@ -1,5 +1,9 @@
 package LoginPackageSRC;
 
+import java.sql.SQLException;
+
+import LoginPackageGUI.LoginScreen;
+
 public class ClubMembership {
 	private MemberAccount mA;
 	private Club club;
@@ -19,8 +23,17 @@ public class ClubMembership {
 	public boolean isCommittee() {
 		return isCommittee;
 	}
-	public void setCommittee(boolean isCommittee) {
+	public void setCommittee(boolean isCommittee, boolean update) {
 		this.isCommittee = isCommittee;
+		if(update)
+		{
+			try {
+				LoginScreen.DBCon.updateCommitteeStatus(this);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	public ClubMembership(MemberAccount mA, Club club) {
 		super();

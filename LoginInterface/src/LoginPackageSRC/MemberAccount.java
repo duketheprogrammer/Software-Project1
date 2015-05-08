@@ -1,5 +1,6 @@
 package LoginPackageSRC;
 
+import java.sql.SQLException;
 import java.util.*;
 
 import LoginPackageGUI.LoginScreen;
@@ -28,10 +29,19 @@ public class MemberAccount extends Account{
 		}
 	}
 
-	public void addClub(Club club){
+	public void addClub(Club club, boolean insert){
 		ClubMembership cm = new ClubMembership(this, club);
 		club.addMembership(cm);
 		addClubMembership(cm);
+		if (insert)
+		{
+			try {
+				LoginScreen.DBCon.insertMemberShip(cm);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	public void removeClub(Club club) {
 		Iterator<ClubMembership> iter = registeredClubs.iterator();
@@ -41,9 +51,17 @@ public class MemberAccount extends Account{
 			if(cM.getClub().equals(club))
 			{
 				cM.remove();
+				try {
+					LoginScreen.DBCon.removeMemberShip(cM);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return;
 			}
 		}
+
+		
 	}
 	public void addClubMembership(ClubMembership cm) {
 		registeredClubs.add(cm);

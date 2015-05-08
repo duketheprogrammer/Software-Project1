@@ -47,7 +47,7 @@ public class LoginScreen implements ActionListener{
 		memberList = new ArrayList<MemberAccount>();
 		clubList = new ArrayList<Club>();
 		getDataBaseData();
-		addTestData();
+		addTestData(false);
 	}
 	
 	private void getDataBaseData() {
@@ -58,46 +58,51 @@ public class LoginScreen implements ActionListener{
 		}
 		try {
 			memberList = DBCon.getMemberAccounts();
-	//		clubList = DBCon.getClubs();
+			clubList = DBCon.getClubs();
+			DBCon.getMemberships(memberList,clubList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
 
-	private void addTestData()
+	private void addTestData(boolean init)
 	{
 		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
-		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive", false);
-		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive", false);
-		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational", false);
+		if(!init)
+		{
+			return;
+		}
+		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive", init);
+		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive", init);
+		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational", init);
 		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
 		clubList.add(club3);
-		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567",false);
+		MemberAccount mA = new MemberAccount("R00096729", "lemniscata", "Member", "dukey@tt.com", "Duke", "Nukem", "0871234567",init);
 		memberList.add(mA);		
-		mA.addClub(club);
-		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567",false);
+		mA.addClub(club,init);
+		MemberAccount mA2 = new MemberAccount("R12345678", "12345678", "Member", "alexander.nill@mycit.ie", "Alex", "Nill", "0871234567",init);
 		memberList.add(mA2);		
-		mA2.addClub(club);
-		MemberAccount mA3 = new MemberAccount("R1", "1", "Member", "a@mycit.ie", "A", "F", "01234567",false);
+		mA2.addClub(club,init);
+		MemberAccount mA3 = new MemberAccount("R1", "1", "Member", "a@mycit.ie", "A", "F", "01234567",init);
 		memberList.add(mA3);		
-		mA3.addClub(club);
-		MemberAccount mA4 = new MemberAccount("R2", "2", "Member", "b@mycit.ie", "B", "F", "02345678",false);
+		mA3.addClub(club,init);
+		MemberAccount mA4 = new MemberAccount("R2", "2", "Member", "b@mycit.ie", "B", "F", "02345678",init);
 		memberList.add(mA4);		
-		mA4.addClub(club);
-		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789",false);
+		mA4.addClub(club,init);
+		MemberAccount mA5 = new MemberAccount("R3", "3", "Member", "c@mycit.ie", "C", "F", "03456789",init);
 		memberList.add(mA5);		
-		mA5.addClub(club);
-		mA5.addClub(club2);
-		club.addCommittee(mA2);
-		club.addCommittee(mA5);
-		club2.addCommittee(mA5);
+		mA5.addClub(club,init);
+		mA5.addClub(club2,init);
+		club.addCommittee(mA2,init);
+		club.addCommittee(mA5,init);
+		club2.addCommittee(mA5,init);
 		
-		new ClubEvent("hello", "over there", "today", "good morning",club, false);
-		new ClubEvent("hell", "over here", "tomorrow", "good evening",club, false);
-		new ClubEvent("olleh", "e", "t", "g",club2, false);
+		new ClubEvent("hello", "over there", "today", "good morning",club, init);
+		new ClubEvent("hell", "over here", "tomorrow", "good evening",club, init);
+		new ClubEvent("olleh", "e", "t", "g",club2, init);
 		
 	}
 	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){

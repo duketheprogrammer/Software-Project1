@@ -32,7 +32,7 @@ public class Club {
 		registeredMembers.get(index).remove();
 	}
 	
-	public void addMember(MemberAccount m){
+	public void addMember(MemberAccount m, boolean insert){
 		ClubMembership cm = new ClubMembership(m, this);
 		m.addClubMembership(cm);
 		addMembership(cm);
@@ -44,14 +44,14 @@ public class Club {
 //		return committeeList.remove(index);
 //	}
 	
-	public void addCommittee(MemberAccount mA){
+	public void addCommittee(MemberAccount mA, boolean update){
 		Iterator<ClubMembership> iter = registeredMembers.iterator();
 		while(iter.hasNext())
 		{
 			ClubMembership cM = iter.next();
 			if(cM.getMemberAccount().equals(mA))
 			{
-				cM.setCommittee(true);
+				cM.setCommittee(true,update);
 			}
 		}
 	}
