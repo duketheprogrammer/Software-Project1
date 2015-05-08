@@ -21,7 +21,7 @@ public class MemberScreen implements ActionListener{
 	private JTextArea editEventInfo;
 	private JTextArea box2;
 	private JPasswordField passBox1, passBox2, passBox3;
-	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4, updateInfoBtn;
+	private JButton m_button1, m_button2, m_button3, m_button4, mini_button1, mini_button2, mini_button3, mini_button4, mini_button5, comm_D_button3, comm_D_button4, updateInfoBtn, makeCommitteeBtn;
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
@@ -50,7 +50,6 @@ public class MemberScreen implements ActionListener{
 	private JButton mini_button6;
 	private JButton mini_button7;
 	private JTable m_tableCommittee;
-	
 	
 	public MemberScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
 		this.frame = frame;
@@ -229,7 +228,7 @@ public class MemberScreen implements ActionListener{
 		m_tableCommittee = new JTable();
 		m_tableCommittee.setFillsViewportHeight(true);
 		m_tableCommittee.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "Name", "E-Mail" }));
+				new String[] { "First Name", "Last Name", "E-Mail" }));
 		sp = new JScrollPane(m_tableCommittee);
 		sp.setBounds(710, 404, 588, 255);
 		panel1.add(sp);
@@ -434,6 +433,11 @@ public class MemberScreen implements ActionListener{
 		mini_button5.setBounds(741, 11, 147, 33);
 		mini_panel4.add(mini_button5);
 
+		makeCommitteeBtn = new JButton("Make Commitee");
+		makeCommitteeBtn.addActionListener(this);
+		makeCommitteeBtn.setBounds(406, 11, 147, 33);
+		mini_panel4.add(makeCommitteeBtn);
+		
 		doubleSplitPane1.setResizeWeight(0.5);
 		doubleSplitPane1.setBottomComponent(mini_panel4);
 
@@ -551,7 +555,7 @@ public class MemberScreen implements ActionListener{
 			}
 			Club club = registeredList.get(index);
 			mA.removeClub(club);
-			displayClubs();
+			displayClubs();	
 			JOptionPane.showMessageDialog(null, "Successfully unregistered from " + club.getClubName());
 		}
 		if(action.equals("Contact Club")){
@@ -602,6 +606,9 @@ public class MemberScreen implements ActionListener{
 			d = new ProfileDialog(adminList, clubList, memberList, mA);
 		}
 		
+		if(action.equals("Make Committee")){
+			
+		}
 		
 	}
 	

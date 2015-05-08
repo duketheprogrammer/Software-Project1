@@ -108,11 +108,13 @@ public class AdminScreen implements ActionListener{
 		wP.add(panel2);
 		
 		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		mainSplitPane.setResizeWeight(0.5);
 		mainSplitPane.setOneTouchExpandable(true);
 		mainSplitPane.setBounds(0,0,1306,614);
 		panel2.add(mainSplitPane);
 		
 			innerSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			innerSplitPane.setResizeWeight(0.5);
 			innerSplitPane.setOneTouchExpandable(true);
 			innerSplitPane.setBounds(0,0,200,200);
 			mainSplitPane.setTopComponent(innerSplitPane);
