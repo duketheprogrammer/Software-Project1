@@ -12,7 +12,7 @@ public class SavingArrayListToFile {
 	
 	public SavingArrayListToFile() {}
 	
-	public void saveAdminsToFile(ArrayList<AdminAccount> accList)
+	public void saveAdminsToFile(ArrayList<Account> accList)
 	{
 		f1 = new File("AdminList.txt");
 		try {
@@ -23,7 +23,7 @@ public class SavingArrayListToFile {
 		}
 		pWriter = new PrintWriter(fWriter, true);
 
-		for(AdminAccount acc: accList)
+		for(Account acc: accList)
 		{
 			pWriter.println(acc.getUserName());
 			pWriter.println(acc.getPassWord());
@@ -60,7 +60,7 @@ public class SavingArrayListToFile {
 		pWriter.close();
 	}
 
-	public ArrayList<AdminAccount> loadAdminsToArray(ArrayList<AdminAccount> accList)
+	public ArrayList<Account> loadAdminsToArray(ArrayList<Account> accList)
 	{
 		f2 = new File("AdminList.txt");
 		try {
@@ -75,7 +75,7 @@ public class SavingArrayListToFile {
 				String lName = pReader.nextLine();
 				String pNo = pReader.nextLine();
 			
-				AdminAccount acc = new AdminAccount(username,passWd,accType, email, fName, lName, pNo);
+				Account acc = new Account(username,passWd,accType, email, fName, lName, pNo);
 				accList.add(acc);
 			}
 		} catch (FileNotFoundException e1) {

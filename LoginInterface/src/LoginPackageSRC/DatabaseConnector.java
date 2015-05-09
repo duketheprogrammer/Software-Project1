@@ -89,6 +89,15 @@ public class DatabaseConnector {
 			String email = rs.getString("memberEmail");
 			String fName = rs.getString("memberName");
 			String lName = rs.getString("memberName");
+			if(fName.indexOf(' ')!=-1)
+			{	
+				fName = fName.substring(0,fName.indexOf(" "));
+				lName = lName.substring(lName.indexOf(" ")+1);
+			}
+			else
+			{
+				lName = "";
+			}
 			String pNo = "" + rs.getInt("memberPhone");
 			MemberAccount mA = new MemberAccount(username, passWd, accType, email, fName, lName, pNo,false);
 
@@ -146,10 +155,12 @@ public class DatabaseConnector {
 	}
 
 	public void insertClubEvent(ClubEvent event) {
-		updateData(String.format("INSERT INTO `software_project`.`event_table` " +
+		String sQuery = String.format("INSERT INTO `software_project`.`event_table` " +
 				"(`clubID`, `eventType`, `eventLocation`, `eventDateTime`, `eventInfo`) " +
 				"VALUES ('%s','%s','%s','%s','%s');",
-				event.getClub().getClubID(),event.getEventType(),event.getLocation(),event.getDate(),event.getInfo()));
+				event.getClub().getClubID(),event.getEventType(),event.getLocation(),event.getDate(),event.getInfo());
+		updateData(sQuery);
+		System.out.println(sQuery);
 		
 	}
 	
@@ -236,7 +247,6 @@ public class DatabaseConnector {
 			String sQuery = String.format("SELECT `clubName` , `committeeLevel` FROM `club_table` " +
 					"INNER JOIN `membership_table` ON `membership_table`.`clubID`=`club_table`.`clubID` " +
 					"WHERE `membership_table`.`memberID` = '%s';",id);
-			System.out.println(sQuery);
 			ResultSet rs = getData(sQuery);
 			while(rs.next())
 			{

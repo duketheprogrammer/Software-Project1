@@ -16,11 +16,11 @@ public class Mailing {
 	{
 		recipients.add(recipient);
 	}	
-	public void addMemberAccounts(ArrayList<MemberAccount> arrayList) {
-		Iterator<MemberAccount> iter = arrayList.iterator();
+	public void addMemberAccounts(ArrayList<? extends Account> accs) {
+		Iterator<? extends Account> iter = accs.iterator();
 		while(iter.hasNext())
 		{
-			MemberAccount committee = iter.next();
+			Account committee = iter.next();
 			addRecipients(committee.getEmail());
 		}
 	}

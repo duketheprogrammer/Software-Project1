@@ -25,7 +25,7 @@ public class MemberScreen implements ActionListener{
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
-	private ArrayList<AdminAccount> adminList;
+	private ArrayList<Account> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
 	private ArrayList<Club> registeredList, unregisteredList;
@@ -50,8 +50,9 @@ public class MemberScreen implements ActionListener{
 	private JButton mini_button6;
 	private JButton mini_button7;
 	private JTable m_tableCommittee;
+	protected MemberAccount selectedMember;
 	
-	public MemberScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
+	public MemberScreen(JFrame frame, ArrayList<Account> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a){
 		this.frame = frame;
 		this.adminList = adminList;
 		this.clubList = clubList;
@@ -183,6 +184,11 @@ public class MemberScreen implements ActionListener{
 		m_button4.addActionListener(this);
 		m_button4.setBounds(202, 338, 162, 32);
 		panel1.add(m_button4);
+		
+		m_button4 = new JButton("Request Committee Status");
+		m_button4.addActionListener(this);
+		m_button4.setBounds(376, 338, 162, 32);
+		panel1.add(m_button4);
 
 		label3 = new JLabel("Events for Club");
 		label3.setFont(new Font("SimSun", Font.PLAIN, 14));
@@ -229,6 +235,25 @@ public class MemberScreen implements ActionListener{
 		m_tableCommittee.setFillsViewportHeight(true);
 		m_tableCommittee.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "First Name", "Last Name", "E-Mail" }));
+		m_tableCommittee.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				if (selectedClub != null)
+				{
+					int index = m_tableCommittee.rowAtPoint(e.getPoint());
+					MailDialog md = new MailDialog();
+					MemberAccount mTo = selectedClub.getCommitteeMembers().get(index);
+					md.setFromTo(selectedClub.getClubName(), mA, mTo );
+					md.presetInfoRequest2();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "no club selected");
+				}
+			}
+		});
 		sp = new JScrollPane(m_tableCommittee);
 		sp.setBounds(710, 404, 588, 255);
 		panel1.add(sp);
@@ -237,7 +262,7 @@ public class MemberScreen implements ActionListener{
 		m_button2.addActionListener(this);
 		m_button2.setBounds(710, 338, 146, 32);
 		panel1.add(m_button2);
-		
+
 		updateInfoBtn = new JButton("Update Info");
 		updateInfoBtn.addActionListener(this);
 		updateInfoBtn.setBounds(874, 338, 146, 32);
@@ -328,8 +353,9 @@ public class MemberScreen implements ActionListener{
 		mini_label3.setBounds(10, 95, 92, 33);
 		mini_panel1.add(mini_label3);
 
-		editDate = new JTextField();
+		editDate = new JFormattedTextField(new DateFormater(true));
 		editDate.setBounds(89, 93, 200, 33);
+		editDate.setText("2015-06-06 11:11:11");
 		mini_panel1.add(editDate);
 
 		mini_label4 = new JLabel("Event Info");
@@ -404,6 +430,15 @@ public class MemberScreen implements ActionListener{
 		comm_tableMembers.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "MEMBER_EMAIL", "MEMBER_FNAME", "MEMBER_LNAME",
 						"MEMBER_PHONE" , "COMMITTEE"}));
+		comm_tableMembers.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int index = comm_tableMembers.rowAtPoint(e.getPoint());
+				selectedMember = selectedClub.getMember(index);
+			}
+		});
 
 		mini_panel3 = new JPanel();
 		mini_panel3.setLayout(null);
@@ -433,7 +468,7 @@ public class MemberScreen implements ActionListener{
 		mini_button5.setBounds(741, 11, 147, 33);
 		mini_panel4.add(mini_button5);
 
-		makeCommitteeBtn = new JButton("Make Commitee");
+		makeCommitteeBtn = new JButton("Make Committee");
 		makeCommitteeBtn.addActionListener(this);
 		makeCommitteeBtn.setBounds(406, 11, 147, 33);
 		mini_panel4.add(makeCommitteeBtn);
@@ -576,7 +611,8 @@ public class MemberScreen implements ActionListener{
 				club = unregisteredList.get(index);
 			}
 			MailDialog mailer = new MailDialog();
-			mailer.contactClub(club, mA);
+			mailer.setFromTo(club, mA);
+			mailer.presetInfoRequest();
 			mailer.setVisible(true);
 		}
 		if(action.equals("Register For Club")){
@@ -607,7 +643,37 @@ public class MemberScreen implements ActionListener{
 		}
 		
 		if(action.equals("Make Committee")){
-			
+			if(selectedMember != null)
+			{
+				selectedClub.addCommittee(selectedMember,true);
+				displayMembers();
+			}
+		}	
+		
+		if(action.equals("Request Committee Status")){
+			if (selectedClub != null)
+			{
+				Date date = new Date();
+				if(date.getMonth()!=9 && date.getMonth()!=4)
+				{
+					JOptionPane.showMessageDialog(null, "Only available at the start of the semester");
+				}
+				MailDialog md = new MailDialog();
+				if (selectedClub.getCommitteeMembers().size()!=0)
+				{
+					md.setFromTo(selectedClub, mA);
+					md.presetComRequest();
+				}
+				else
+				{
+					md.setFromTo(selectedClub.getClubName(), mA, adminList.get(0));
+					md.presetComRequest2();
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "no club selected");
+			}
 		}
 		
 	}

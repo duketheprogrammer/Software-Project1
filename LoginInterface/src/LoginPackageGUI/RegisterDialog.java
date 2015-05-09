@@ -1,6 +1,5 @@
 package LoginPackageGUI;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import LoginPackageSRC.Account;
-import LoginPackageSRC.AdminAccount;
+import LoginPackageSRC.Account;
 import LoginPackageSRC.Club;
 import LoginPackageSRC.MemberAccount;
 
@@ -38,7 +37,7 @@ public class RegisterDialog extends JDialog implements ActionListener {
 	protected JLabel labelLastName;
 	protected JLabel labelFirstName;
 
-	public RegisterDialog(ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList) {
+	public RegisterDialog(ArrayList<Account> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList) {
 		this.memberList=memberList;
 		this.clubList = clubList;
 		setAlwaysOnTop(true);

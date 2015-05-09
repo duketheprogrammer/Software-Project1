@@ -7,7 +7,6 @@ import LoginPackageGUI.LoginScreen;
 
 public class MemberAccount extends Account{
 
-	private String email, fName, lName, pNo;
 	private ArrayList<ClubEvent> eventList;
 //	private ArrayList<Club> registeredClubs;
 	private ArrayList<ClubMembership> registeredClubs;
@@ -15,11 +14,7 @@ public class MemberAccount extends Account{
 
 	public MemberAccount(String username, String passWd, String accType, String email, String fName, String lName, String pNo, boolean insert) {
 		// TODO Auto-generated constructor stub
-		super(username, passWd, accType);
-		setEmail(email);
-		setFName(fName);
-		setLName(lName);
-		setPNo(pNo);
+		super(username, passWd, fName, lName, pNo, accType, email);
 		committeeData = null;
 		eventList = new ArrayList<ClubEvent>();
 		registeredClubs = new ArrayList<ClubMembership>();
@@ -94,21 +89,8 @@ public class MemberAccount extends Account{
 		return eventList.get(i);
 	}
 
-	public void setEmail(String email){
-		this.email = email;
-	}
 
-	public void setFName(String fName){
-		this.fName = fName;
-	}
 
-	public void setLName(String lName){
-		this.lName = lName;
-	}
-
-	public void setPNo(String pNo){
-		this.pNo = pNo;
-	}
 
 	@Override
 	public String getUserName(){
@@ -125,21 +107,6 @@ public class MemberAccount extends Account{
 		return super.getAccType();
 	}
 
-	public String getEmail(){
-		return email;
-	}
-
-	public String getFName(){
-		return fName;
-	}
-
-	public String getLName(){
-		return lName;
-	}
-
-	public String getPNo(){
-		return pNo;
-	}
 
 	public CommitteeData getCommitteeData() {
 		return committeeData;

@@ -5,23 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.peer.LabelPeer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.text.html.StyleSheet.BoxPainter;
-
-import com.sun.jndi.cosnaming.IiopUrl.Address;
-
-import LoginPackageSRC.AdminAccount;
+import LoginPackageSRC.Account;
 import LoginPackageSRC.Club;
 import LoginPackageSRC.CommitteeData;
-import LoginPackageSRC.DatabaseConnector;
+import LoginPackageSRC.DateFormater;
 import LoginPackageSRC.MemberAccount;
 
 @SuppressWarnings("serial")
@@ -29,13 +24,14 @@ public class ProfileDialog extends RegisterDialog implements ActionListener {
 	
 	private JLabel yearOfCourseLabel, nameOfCourseLabel, dateOfBirthLabel, addressLabel, label92;
 	private JButton updateBtn;
-	private JTextField yearOfCourseField, nameOfCourseField, dateOfBirthField, addressField;
+	private JTextField yearOfCourseField, nameOfCourseField, addressField;
+	private JFormattedTextField dateOfBirthField;
 	private MemberAccount mA;
 	private JCheckBox checkCommittee;
 	private boolean bCheckCommittee;
 	
 
-	public ProfileDialog(ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, MemberAccount mA) {
+	public ProfileDialog(ArrayList<Account> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, MemberAccount mA) {
 		super(adminList,clubList,memberList);
 		boxUserName.setEnabled(false);
 		comboBox.setVisible(false);
@@ -102,9 +98,11 @@ public class ProfileDialog extends RegisterDialog implements ActionListener {
 		dateOfBirthLabel.setBounds(32,460,106,29);
 		getContentPane().add(dateOfBirthLabel);
 		
-		dateOfBirthField = new JTextField();
+		DateFormater df = new DateFormater();
+		dateOfBirthField = new JFormattedTextField(df);
 		dateOfBirthField.setBounds(148,460,108,29);
 		getContentPane().add(dateOfBirthField);
+		dateOfBirthField.setText("2000-01-01");
 		
 		addressLabel = new JLabel("Address:");
 		addressLabel.setBounds(32,500,106,29);
@@ -167,6 +165,7 @@ public class ProfileDialog extends RegisterDialog implements ActionListener {
 				courseYear = yearOfCourseField.getText();
 				courseName = nameOfCourseField.getText();
 				dateOfBirth = dateOfBirthField.getText();
+				dateOfBirth += " 00:00:00";
 				address = addressField.getText();
 				getDialogData();
 				mA.setPassWord(passWd);

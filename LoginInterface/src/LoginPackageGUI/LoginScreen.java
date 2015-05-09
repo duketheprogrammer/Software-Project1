@@ -1,12 +1,33 @@
 package LoginPackageGUI;
 
-import LoginPackageSRC.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import LoginPackageSRC.Account;
+import LoginPackageSRC.Club;
+import LoginPackageSRC.ClubEvent;
+import LoginPackageSRC.DatabaseConnector;
+import LoginPackageSRC.MemberAccount;
 
 public class LoginScreen implements ActionListener{
 
@@ -16,17 +37,17 @@ public class LoginScreen implements ActionListener{
 
 	private static JFrame frame;
 	private JPanel panel1;
-	private JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11, label12, label13;
-	private JTextField box1, box2, box3, box4, box5, box6;
-	private JPasswordField passBox1, passBox2, passBox3;
-	private JButton button1, button2, button3, button4;
+	private JLabel label1, label2, label3, label4, label5;
+	private JTextField box1;
+	private JPasswordField passBox1;
+	private JButton button1, button2;
 	private MenuBar menuBar;
-	private MenuItem mI1, mI2;
+	private MenuItem mI1;
 	private Menu mOpt1;
 	public static DatabaseConnector DBCon;
-	private ArrayList<AdminAccount> adminList;
-	private ArrayList<MemberAccount> memberList;
-	private ArrayList<Club> clubList;
+	private ArrayList<Account> adminList;
+	public static ArrayList<MemberAccount> memberList;
+	public static ArrayList<Club> clubList;
 	private DatabaseConnector dbC;
 	//private ResultSet rs;
 	private WelcomePanel wP;
@@ -43,7 +64,7 @@ public class LoginScreen implements ActionListener{
 
 	public LoginScreen(){
 		initialize();
-		adminList = new ArrayList<AdminAccount>();
+		adminList = new ArrayList<Account>();
 		memberList = new ArrayList<MemberAccount>();
 		clubList = new ArrayList<Club>();
 		getDataBaseData();
@@ -68,7 +89,8 @@ public class LoginScreen implements ActionListener{
 
 	private void addTestData(boolean init)
 	{
-		AdminAccount acc = new AdminAccount("melvster", "melvster77", "Admin", "melvin.nwokoye@mycit.ie", "Melvin", "Nwokoye", "0858170471");
+		Account acc = new Account("melvster", "melvster77", "Melvin", "Nwokoye", "0858170471", "Admin", "melvin.nwokoye@mycit.ie");
+		adminList.add(acc);		
 		if(!init)
 		{
 			return;
@@ -76,7 +98,6 @@ public class LoginScreen implements ActionListener{
 		Club club = new Club(12345, "Badminton", "Badminton consist of a racquet and a shuttle, for Leisure and for Competitive", "Recreational/Competitive", init);
 		Club club2 = new Club(23456, "Volleyball", "Volleyball consists of balls and players, for Leisure and for Competitive", "Recreational/Competitive", init);
 		Club club3 = new Club(34567, "Origami", "Making sculptures from paper", "Recreational", init);
-		adminList.add(acc);		
 		clubList.add(club);
 		clubList.add(club2);
 		clubList.add(club3);
@@ -100,12 +121,12 @@ public class LoginScreen implements ActionListener{
 		club.addCommittee(mA5,init);
 		club2.addCommittee(mA5,init);
 		
-		new ClubEvent("hello", "over there", "today", "good morning",club, init);
-		new ClubEvent("hell", "over here", "tomorrow", "good evening",club, init);
-		new ClubEvent("olleh", "e", "t", "g",club2, init);
+		new ClubEvent("hello", "over there", "2005-11-11 00:11:12", "good morning",club, init);
+		new ClubEvent("hell", "over here", "2015-12-13 01:11:12", "good evening",club, init);
+		new ClubEvent("olleh", "e", "t", "2009-01-15 02:21:12",club2, init);
 		
 	}
-	public LoginScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
+	public LoginScreen(JFrame frame, ArrayList<Account> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList){
 
 //		this.frame = frame;
 		clearFrame();
@@ -315,7 +336,7 @@ public class LoginScreen implements ActionListener{
 			String username = box1.getText().toString();
 			String password = passBox1.getText().toString();
 
-			for(AdminAccount a : adminList){
+			for(Account a : adminList){
 				if(username.equalsIgnoreCase(a.getUserName())){
 					uN = true;
 					if(password.equals(a.getPassWord())){

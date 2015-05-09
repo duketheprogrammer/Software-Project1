@@ -5,11 +5,11 @@ public class SortArrayList{
 	
 	public SortArrayList(){}
 	
-	public ArrayList<AdminAccount> sortAdminArrayListByFName(ArrayList<AdminAccount> pList)
+	public ArrayList<Account> sortAdminArrayListByFName(ArrayList<Account> pList)
 	{
-		Collections.sort(pList, new Comparator<AdminAccount>(){
+		Collections.sort(pList, new Comparator<Account>(){
 			@Override
-			public int compare(AdminAccount acc1, AdminAccount acc2)
+			public int compare(Account acc1, Account acc2)
 			{
 				return acc1.getFName().compareTo(acc2.getFName());
 			}
@@ -29,11 +29,11 @@ public class SortArrayList{
 		return pList;
 	}
 	
-	public ArrayList<AdminAccount> sortAdminArrayListByLName(ArrayList<AdminAccount> pList)
+	public ArrayList<Account> sortAdminArrayListByLName(ArrayList<Account> pList)
 	{
-		Collections.sort(pList, new Comparator<AdminAccount>(){
+		Collections.sort(pList, new Comparator<Account>(){
 			@Override
-			public int compare(AdminAccount acc1, AdminAccount acc2)
+			public int compare(Account acc1, Account acc2)
 			{
 				return acc1.getLName().compareTo(acc2.getLName());
 			}

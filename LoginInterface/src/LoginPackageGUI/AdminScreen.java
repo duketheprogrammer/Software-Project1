@@ -23,12 +23,12 @@ public class AdminScreen implements ActionListener{
 	private MenuBar menuBar;
 	private MenuItem mI1, mI2, mI3, mI4, mI5, mI6, mI7, mI8;
 	private Menu mOpt1, mOpt2;
-	private ArrayList<AdminAccount> adminList;
+	private ArrayList<Account> adminList;
 	private ArrayList<MemberAccount> memberList;
 	private ArrayList<Club> clubList;
 	private Club club;
 	private ArrayList<Object[]> list;
-	private AdminAccount aA;
+	private Account aA;
 	private JSplitPane mainSplitPane, innerSplitPane;
 	private JTable table1, table2, table3;
 	private DatabaseConnector dbC;
@@ -44,13 +44,13 @@ public class AdminScreen implements ActionListener{
 	private String [] selection = {"Recreational", "Competitive", "Recreational/Competitive"};
 	private int clubIndex, memberIndex;
 
-	public AdminScreen(JFrame frame, ArrayList<AdminAccount> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a) {
+	public AdminScreen(JFrame frame, ArrayList<Account> adminList, ArrayList<Club> clubList, ArrayList<MemberAccount> memberList, Account a) {
 		// TODO Auto-generated constructor stub
 		this.adminList = adminList; 
 		this.clubList = clubList;
 		this.memberList = memberList;
 		this.frame = frame;
-		this.aA = (AdminAccount) a;
+		this.aA = (Account) a;
 		initialize();
 		displayClubListInTable();
 	}
