@@ -45,11 +45,13 @@ CREATE DATABASE software_project;
 	CREATE TABLE event_table
 	(
 	clubID integer(15) NOT NULL,
+	eventID integer(15) NOT NULL AUTO_INCREMENT,
 	eventType varchar(50),
 	eventLocation varchar(50),
 	eventDateTime datetime,
 	eventInfo varchar(100),
-	FOREIGN KEY (clubID) REFERENCES club_table(clubID) 
+	FOREIGN KEY (clubID) REFERENCES club_table(clubID),
+	PRIMARY KEY (eventID)
 	);
 
 	CREATE TABLE membership_table
