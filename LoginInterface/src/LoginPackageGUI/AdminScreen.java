@@ -29,7 +29,6 @@ public class AdminScreen implements ActionListener{
 	private Club club;
 	private ArrayList<Object[]> list;
 	private Account aA;
-	private JSplitPane mainSplitPane, innerSplitPane;
 	private JTable table1, table2, table3;
 	private DatabaseConnector dbC;
 	private ResultSet rs;
@@ -40,7 +39,7 @@ public class AdminScreen implements ActionListener{
 	private SortArrayList sortAL;
 	private JScrollPane sp;
 	private WelcomePanel wP;
-	private JTabbedPane tabbedPane;
+	private JTabbedPane mainTabbedPane;
 	private String [] selection = {"Recreational", "Competitive", "Recreational/Competitive"};
 	private int clubIndex, memberIndex;
 
@@ -91,38 +90,14 @@ public class AdminScreen implements ActionListener{
 		panel1.add(label1);
 
 	
-		panel2 = new JPanel(){
-			@Override
-			protected void paintComponent(Graphics g){
-				super.paintComponent(g);
-				g.drawImage(getImage(), 0,0, wP.getWidth(), wP.getHeight(), null);
-			}
-
-			public Image getImage(){
-				ImageIcon i = new ImageIcon(getClass().getResource("/Images/white.jpg"));
-				return i.getImage();
-			}
-		};
-		panel2.setLayout(null);
-		panel2.setBounds(21,93,1306,614);
-		wP.add(panel2);
+		mainTabbedPane = new JTabbedPane();
+		mainTabbedPane.setBounds(50,85,1262,525);
+		wP.add(mainTabbedPane);
 		
-		mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		mainSplitPane.setResizeWeight(0.5);
-		mainSplitPane.setOneTouchExpandable(true);
-		mainSplitPane.setBounds(0,0,1306,614);
-		panel2.add(mainSplitPane);
-		
-			innerSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			innerSplitPane.setResizeWeight(0.5);
-			innerSplitPane.setOneTouchExpandable(true);
-			innerSplitPane.setBounds(0,0,200,200);
-			mainSplitPane.setTopComponent(innerSplitPane);
-			
-				panel3 = new JPanel();
-				panel3.setBounds(0,0,200,200);
-				panel3.setLayout(null);
-				innerSplitPane.setTopComponent(panel3);
+			panel3 = new JPanel();
+			panel3.setBounds(0,0,200,200);
+			panel3.setLayout(null);
+			mainTabbedPane.add(panel3, "CREATE CLUB");
 				
 				label1 = new JLabel("Club ID:");
 				label1.setFont(new Font("SimSun", Font.PLAIN, 14));
@@ -171,19 +146,19 @@ public class AdminScreen implements ActionListener{
 				
 				panel4 = new JPanel();
 				panel4.setLayout(null);
-				innerSplitPane.setBottomComponent(panel4);
+				mainTabbedPane.add(panel4, "VIEW CLUBLIST");
 				
 				split_box_clubSearch = new JTextField();
 				split_box_clubSearch.setBounds(10,22,197,30);
 				panel4.add(split_box_clubSearch);
 				
 				split_button2 = new JButton("Search Club By Name");
-				split_button2.setBounds(217,22,156,30);
+				split_button2.setBounds(217,22,197,30);
 				split_button2.addActionListener(this);
 				panel4.add(split_button2);
 				
 				split_button_refresh = new JButton("Refresh ClubList");
-				split_button_refresh.setBounds(736,22,119,30);
+				split_button_refresh.setBounds(777,22,141,30);
 				split_button_refresh.addActionListener(this);
 				panel4.add(split_button_refresh);
 				
@@ -206,7 +181,7 @@ public class AdminScreen implements ActionListener{
 					}
 				});	
 				sp = new JScrollPane(table1);
-				sp.setBounds(10,63,845,358);
+				sp.setBounds(10,63,908,358);
 				panel4.add(sp);
 				
 				split_button3 = new JButton("Edit Club");
@@ -215,13 +190,13 @@ public class AdminScreen implements ActionListener{
 				panel4.add(split_button3);
 				
 				split_button4 = new JButton("Delete Club");
-				split_button4.setBounds(736,432,119,30);
+				split_button4.setBounds(799,432,119,30);
 				split_button4.addActionListener(this);
 				panel4.add(split_button4);
 			
 			panel5 = new JPanel();
 			panel5.setLayout(null);
-			mainSplitPane.setBottomComponent(panel5);
+			mainTabbedPane.add(panel5, "VIEW CLUB MEMBERS");
 			
 				split_box_clubMemberSearch = new JTextField();
 				split_box_clubMemberSearch.setBounds(10,22,197,30);
@@ -239,12 +214,12 @@ public class AdminScreen implements ActionListener{
 				
 				split_button_assignRole = new JButton("Assign Role");
 				split_button_assignRole.addActionListener(this);
-				split_button_assignRole.setBounds(10,432,135,30);
+				split_button_assignRole.setBounds(700,432,155,30);
 				panel5.add(split_button_assignRole);
 				
 				split_button_clubMemberSearch = new JButton("Search Member By Name");
 				split_button_clubMemberSearch.addActionListener(this);
-				split_button_clubMemberSearch.setBounds(217,22,171,30);
+				split_button_clubMemberSearch.setBounds(217,22,203,30);
 				panel5.add(split_button_clubMemberSearch);
 		
 		menuBar = new MenuBar();
@@ -252,19 +227,14 @@ public class AdminScreen implements ActionListener{
 			mOpt1 = new Menu("File");
 			menuBar.add(mOpt1);
 	
-			mI1 = new MenuItem("Save Account List");
+			mI1 = new MenuItem("Logout");
 			mI1.addActionListener(this);
 			mOpt1.add(mI1);
-	
-			mI2 = new MenuItem("Load Account List");
-			mI2.addActionListener(this);
-			mOpt1.add(mI2);
-	
-			mI3 = new MenuItem("Logout");
-			mI3.addActionListener(this);
-			mOpt1.add(mI3);
 
 		frame.setMenuBar(menuBar);
+
+				
+		
 	}
 
 	@Override
@@ -475,7 +445,7 @@ public class AdminScreen implements ActionListener{
 	private void initalizeDialog() {
 		// TODO Auto-generated method stub
 		d = new JDialog();
-		d.setSize(280, 460);
+		d.setSize(310, 460);
 		d.getContentPane().setLayout(null);
 		d.setAlwaysOnTop(true);
 		d.setVisible(true);
@@ -490,7 +460,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label3);
 
 		box3 = new JTextField();
-		box3.setBounds(133,60,108,29);
+		box3.setBounds(133,60,115,29);
 		d.getContentPane().add(box3);
 
 		label4 = new JLabel("Password:");
@@ -498,7 +468,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label4);
 
 		passBox1 = new JPasswordField();
-		passBox1.setBounds(133,100,108,29);
+		passBox1.setBounds(133,100,115,29);
 		d.getContentPane().add(passBox1);
 
 		label5 = new JLabel("Confirm Password:");
@@ -506,7 +476,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label5);
 
 		passBox2 = new JPasswordField();
-		passBox2.setBounds(133,140,108,29);
+		passBox2.setBounds(133,140,115,29);
 		d.getContentPane().add(passBox2);
 
 		label6 = new JLabel("Email:");
@@ -514,7 +484,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label6);
 
 		box4 = new JTextField();
-		box4.setBounds(133,180,108,29);
+		box4.setBounds(133,180,115,29);
 		d.getContentPane().add(box4);
 
 		label7 = new JLabel("First Name:");
@@ -522,7 +492,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label7);
 
 		box5 = new JTextField();
-		box5.setBounds(133,220,108,29);
+		box5.setBounds(133,220,115,29);
 		d.getContentPane().add(box5);
 
 		label8 = new JLabel("Last Name:");
@@ -530,7 +500,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label8);
 
 		box6 = new JTextField();
-		box6.setBounds(133,260,108,29);
+		box6.setBounds(133,260,115,29);
 		d.getContentPane().add(box6);
 
 		label9 = new JLabel("Phone Number:");
@@ -538,7 +508,7 @@ public class AdminScreen implements ActionListener{
 		d.getContentPane().add(label9);
 
 		box7 = new JTextField();
-		box7.setBounds(133,300,108,29);
+		box7.setBounds(133,300,115,29);
 		d.getContentPane().add(box7);
 
 		label10 = new JLabel("Account Type:");
