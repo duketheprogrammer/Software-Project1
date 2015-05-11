@@ -9,6 +9,8 @@ import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ import LoginPackageSRC.ClubEvent;
 import LoginPackageSRC.DatabaseConnector;
 import LoginPackageSRC.MemberAccount;
 
-public class LoginScreen implements ActionListener{
+public class LoginScreen implements ActionListener,  KeyListener{
 
 	/**
 	 * @param args
@@ -196,6 +198,7 @@ public class LoginScreen implements ActionListener{
 
 		box1 = new JTextField();
 		box1.setBounds(189,181,137,30);
+		box1.addKeyListener(this);
 		panel1.add(box1);
 
 		label4 = new JLabel("Password:");
@@ -205,6 +208,7 @@ public class LoginScreen implements ActionListener{
 
 		passBox1 = new JPasswordField();
 		passBox1.setBounds(189,233,137,30);
+		passBox1.addKeyListener(this);
 		panel1.add(passBox1);
 
 		button1 = new JButton("Login");
@@ -326,47 +330,57 @@ public class LoginScreen implements ActionListener{
 		frame.setMenuBar(menuBar);
 
 	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+	    if (e.getKeyCode()==KeyEvent.VK_ENTER){
+	    	login();
+	    }
 
+	}
+	public void login()
+	{
+		boolean uN = false, pW = false;
+		String username = box1.getText().toString();
+		String password = passBox1.getText().toString();
+
+		for(Account a : adminList){
+			if(username.equalsIgnoreCase(a.getUserName())){
+				uN = true;
+				if(password.equals(a.getPassWord())){
+					pW = true;
+					if(uN == true && pW == true){
+						if((a.getAccType()).equals("Admin")){
+							clearFrame();
+							AdminScreen aS = new AdminScreen(frame, adminList, clubList, memberList, a);
+						}
+					}
+				}
+			}
+		}
+		for(MemberAccount m : memberList){
+			if(username.equalsIgnoreCase(m.getUserName())){
+				uN = true;
+				if(password.equals(m.getPassWord())){
+					pW = true;
+					if(uN == true && pW == true){
+						if((m.getAccType()).equals("Member")){
+							clearFrame();
+							MemberScreen mS = new MemberScreen(frame, adminList, clubList, memberList, m);
+						}
+					}
+				}
+			}
+		}
+		if(uN != true || pW != true){
+			JOptionPane.showMessageDialog(null, "Username/Password is In-Correct");
+		}
+	}
 	@Override
 	public void actionPerformed(ActionEvent e){
 		String action = e.getActionCommand();
 
 		if(action.equals("Login")){ //For Login Checker
-			boolean uN = false, pW = false;
-			String username = box1.getText().toString();
-			String password = passBox1.getText().toString();
-
-			for(Account a : adminList){
-				if(username.equalsIgnoreCase(a.getUserName())){
-					uN = true;
-					if(password.equals(a.getPassWord())){
-						pW = true;
-						if(uN == true && pW == true){
-							if((a.getAccType()).equals("Admin")){
-								clearFrame();
-								AdminScreen aS = new AdminScreen(frame, adminList, clubList, memberList, a);
-							}
-						}
-					}
-				}
-			}
-			for(MemberAccount m : memberList){
-				if(username.equalsIgnoreCase(m.getUserName())){
-					uN = true;
-					if(password.equals(m.getPassWord())){
-						pW = true;
-						if(uN == true && pW == true){
-							if((m.getAccType()).equals("Member")){
-								clearFrame();
-								MemberScreen mS = new MemberScreen(frame, adminList, clubList, memberList, m);
-							}
-						}
-					}
-				}
-			}
-			if(uN != true || pW != true){
-				JOptionPane.showMessageDialog(null, "Username/Password is In-Correct");
-			}
+			login();
 		}
 
 
@@ -394,5 +408,17 @@ public class LoginScreen implements ActionListener{
 		// TODO Auto-generated method stub
 		d = new RegisterDialog(adminList, clubList, memberList);
 
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

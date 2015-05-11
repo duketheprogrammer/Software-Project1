@@ -654,7 +654,7 @@ public class MemberScreen implements ActionListener{
 			if (selectedClub != null)
 			{
 				Date date = new Date();
-				if(date.getMonth()!=9 && date.getMonth()!=4)
+				if(date.getMonth()!=9 && date.getMonth()!=8)
 				{
 					JOptionPane.showMessageDialog(null, "Only available at the start of the semester");
 				}
